@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import Overlay from "./Overlay.svelte";
 
     let dispatch = createEventDispatcher();
 
@@ -10,6 +11,8 @@
     }
 </script>
 
+
+<Overlay handleClick={closeDrawer} />
 
 <div class="drawer {location}">
     <div class="action">
@@ -44,8 +47,9 @@
     .bottom {
         bottom: 0;
         left: 0;
-        border-radius: 5px 5px 0 0;
-        width: 100vw;
+        border-radius: 10px 10px 0 0;
+        max-height: 40vh;
+        width: 95vw;
     }
 
     .right {

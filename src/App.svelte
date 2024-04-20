@@ -3,6 +3,7 @@
 	import Footer from "./components/Footer.svelte";
 	import Card from "./components/Card.svelte";
 	import Drawer from "./components/Drawer.svelte";
+	import Overlay from "./components/Overlay.svelte";
 
     let brands = ['Nike', 'Adidas', 'New Balance', 'Converse', 'Reebok'];
     let shoes = [];
@@ -36,6 +37,20 @@
         console.log(shoe);
         isDrawerOpen = true;
         details = shoe;
+
+		details.variants.forEach(variant => {
+			if (variant.size.includes('Y')) {
+				variant.size = variant.size.replace('Y', '');
+			}
+
+			if (variant.size.includes('C')) {
+				variant.size = variant.size.replace('C', '');
+			}
+		});
+		
+		details.variants.sort((a, b) => a.size - b.size);
+
+		console.log(details);
     }
 
 	const getNextPage = () => {
@@ -55,7 +70,7 @@
 
 <Header name="Sneaks"/>
 <main>
-	<section class="flex-row flex-wrap">
+	<section class="flex-row flex-wrap flex-justify-space-between">
         {#each brands as brand}
         <Card>
             <div class="flex-col">
@@ -65,11 +80,11 @@
         </Card>
         {/each}
     </section>
-	<section class="flex-row flex-end">
+	<section class="flex-row flex-justify-end">
         <button on:click={() => getPrevPage()} disabled="{currentPage < 2}">Prev</button>
         <button on:click={() => getNextPage()} disabled="{currentPage === totalPages}">Next</button>
     </section>
-	<section class="flex-row flex-wrap">
+	<section class="flex-row flex-wrap flex-justify-space-between">
         {#each shoes as shoe}
         <Card bgcolor="white" border="none" on:openDrawer={() => getShoeDetails(shoe)}>
             <img class="shoe-image" src={shoe.image} alt={shoe.name}/>
@@ -79,18 +94,26 @@
 </main>
 <Footer />
 {#if isDrawerOpen}
-<div class="overlay" on:click={toggleDrawer} />
 <Drawer on:closeDrawer={toggleDrawer}>
-	<div style="text-align: left">
-		<p>{details.title}</p>
-		<p>{@html details.description}</p>
-		<div class="flex-row flex-wrap" style="margin: 5px; align-items: flex-start;">
-			{#each details.variants as variant}
-				<Card width="100px" height="40px" margin="1px">
-					<span>Size: {variant.size}</span>
-					<span>${variant.price}</span>
-				</Card>
-			{/each}
+	<div class="flex-row" style="width: 100%">
+		<div style="display: flex; justify-content: center; align-items: center; width: 100%; object-fit: contain;">
+			<img src="{details.image}" alt={details.name} width="300px"/>
+		</div>
+		<div>
+			<h1>{details.title}</h1>
+			{#if details.description}
+				<p>{@html details.description}</p>
+			{:else}
+				<p>No description available</p>
+			{/if}
+			<div class="flex-row flex-wrap" style="margin: 5px; align-items: flex-start;">
+				{#each details.variants as variant}
+					<Card width="100px" height="40px" margin="1px">
+						<span>Size: {variant.size}</span>
+						<span>${variant.price}</span>
+					</Card>
+				{/each}
+			</div>
 		</div>
 	</div>
 </Drawer>
@@ -111,36 +134,24 @@
 	.flex-row {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
 	}
 
 	.flex-col {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
 	}
 
-	.flex-end {
+	.flex-justify-end {
 		justify-content: flex-end;
+	}
+
+	.flex-justify-space-between {
+		justify-content: space-between;
 	}
 
 	.shoe-image {
 		object-fit: contain;
 		width: 80%;
-	}
-
-	.overlay {
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,.85);
-		top: 0;
-		left: 0;
-		z-index: 400;
-	}
-
-	.overlay:hover {
-		cursor: pointer;  
 	}
 
 	@media (min-width: 640px) {

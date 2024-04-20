@@ -38,6 +38,19 @@
         details = shoe;
     }
 
+	const getNextPage = () => {
+        currentPage+=1;
+        getShoes(currentBrand, currentPage);
+    }
+
+    const getPrevPage = () => {
+        if (currentPage > 1) {
+            currentPage-=1;
+        }
+
+        getShoes(currentBrand, currentPage);
+    }
+
 </script>
 
 <Header name="Sneaks"/>
@@ -51,6 +64,10 @@
             </div>
         </Card>
         {/each}
+    </section>
+	<section class="flex-row flex-end">
+        <button on:click={() => getPrevPage()} disabled="{currentPage < 2}">Prev</button>
+        <button on:click={() => getNextPage()} disabled="{currentPage === totalPages}">Next</button>
     </section>
 	<section class="flex-row flex-wrap">
         {#each shoes as shoe}
@@ -67,7 +84,7 @@
 	<div style="text-align: left">
 		<p>{details.title}</p>
 		<p>{@html details.description}</p>
-		<div style="display: flex; flex-direction: row; flex-wrap: wrap; margin: 5px; align-items: flex-start; justify-content: space-between;">
+		<div class="flex-row flex-wrap" style="margin: 5px; align-items: flex-start;">
 			{#each details.variants as variant}
 				<Card width="100px" height="40px" margin="1px">
 					<span>Size: {variant.size}</span>
@@ -101,6 +118,10 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+	}
+
+	.flex-end {
+		justify-content: flex-end;
 	}
 
 	.shoe-image {

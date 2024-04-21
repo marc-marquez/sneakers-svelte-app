@@ -1,5 +1,6 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	import Header from "./components/Header.svelte";
 	import Footer from "./components/Footer.svelte";
@@ -14,6 +15,9 @@
     let details;
     let isDrawerOpen = false;
 	let isLoading = false;
+
+	let containerHeight;
+  	let imageHeight;
 
 	const getShoes = (brand, page=1) => {
 		isLoading = true;
@@ -82,8 +86,8 @@
 		const image = document.getElementsByClassName('drawer-shoe-image')[0];
 		const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
 
-		const containerHeight = container.clientHeight;
-		const imageHeight = image.clientHeight;
+		containerHeight = container.clientHeight;
+		imageHeight = image.clientHeight;
 
 		if (containerHeight > imageHeight) {
 			// Fall animation
@@ -98,6 +102,21 @@
 			}, 500); // Wait for the fall animation to complete
 		}
 	}
+
+	onMount(() => {
+		const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
+		containerHeight = container.clientHeight;
+		const image = document.getElementsByClassName('drawer-shoe-image')[0];
+		imageHeight = image.clientHeight;
+	});
+
+	window.addEventListener('resize', () => {
+		const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
+		containerHeight = container.clientHeight;
+		const image = document.getElementsByClassName('drawer-shoe-image')[0];
+		imageHeight = image.clientHeight;
+	});
+
 </script>
 
 <Header name="Sneaks"/>

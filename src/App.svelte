@@ -78,6 +78,26 @@
         getShoes(currentBrand, currentPage);
     }
 
+	const animateImage = () => {
+		const image = document.getElementsByClassName('drawer-shoe-image')[0];
+		const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
+
+		const containerHeight = container.clientHeight;
+		const imageHeight = image.clientHeight;
+
+		if (containerHeight > imageHeight) {
+			// Fall animation
+			image.style.top = `${containerHeight - imageHeight}px`;
+
+			// Bounce animation
+			setTimeout(() => {
+				image.style.transform = 'translateX(-50%) translateY(-50px)'; // Bounce up
+				setTimeout(() => {
+					image.style.transform = 'translateX(-50%) translateY(0)'; // Bounce back to original position
+				}, 500); // Wait for the bounce up animation to complete
+			}, 500); // Wait for the fall animation to complete
+		}
+	}
 </script>
 
 <Header name="Sneaks"/>
@@ -107,12 +127,10 @@
 </main>
 <Footer />
 {#if isDrawerOpen}
-<Drawer on:closeDrawer={toggleDrawer} {isDrawerOpen}>
+<Drawer on:closeDrawer={toggleDrawer} {isDrawerOpen} on:animateImage={animateImage}>
 	<div class="flex-row shoe-details" style="width: 100%">
-		<div style="display: flex; justify-content: center; align-items: center; width: 100%; object-fit: contain;">
-			{#if details.image}
-			<img src="{details.image}" alt={details.name} width="300px" transition:fade />
-			{/if}
+		<div class="drawer-shoe-image-container">
+			<img class="drawer-shoe-image" src="{details.image}" alt={details.name} width="300px" />
 		</div>
 		<div>
 			<h1>{details.title}</h1>
@@ -167,6 +185,24 @@
 	.shoe-image {
 		object-fit: contain;
 		width: 80%;
+	}
+
+	.drawer-shoe-image-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		object-fit: contain;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.drawer-shoe-image {
+		position: absolute;
+		top: -100%;
+		left: 50%;
+		transform: translateX(-50%);
+		transition: top 0.5s ease, transform 0.5s ease; /* Transition for smooth animation */
 	}
 
 	.brand-button {

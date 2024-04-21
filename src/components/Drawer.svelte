@@ -2,6 +2,8 @@
     import { createEventDispatcher } from "svelte";
     import Overlay from "./Overlay.svelte";
 
+    export let isDrawerOpen = false;
+
     let dispatch = createEventDispatcher();
 
     export let location = 'bottom';
@@ -14,7 +16,7 @@
 
 <Overlay handleClick={closeDrawer} />
 
-<div class="drawer {location}">
+<div class="drawer {location} {isDrawerOpen ? 'bottom-show' : 'bottom-hide'}">
     <div class="action">
         <button on:click={closeDrawer}>Close</button>
     </div>
@@ -27,13 +29,13 @@
         background-color: #fff;
         color: black;
         z-index: 500;
-        padding: 10px;
+        padding: 20px;
         display: flex;
-        flex-grow: 1;
         flex-direction: column;
         align-items: flex-start;
         justify-content:flex-start;
-        transition: 0.5 right ease-in;
+        transition: bottom 0.3s ease;
+        box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
     }
 
     .action {
@@ -45,11 +47,18 @@
     }
 
     .bottom {
-        bottom: 0;
+        bottom: -300px;
         left: 0;
         border-radius: 10px 10px 0 0;
         max-height: 40vh;
-        width: 95vw;
+    }
+
+    .bottom-show {
+        bottom: 0;
+    }
+
+    .bottom-hide {
+        bottom: -300px;
     }
 
     .right {

@@ -8,8 +8,9 @@
 
 <style>
     footer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: fixed;
+        bottom: 0;
+        text-align: center;
+        padding: 10px
     }
 </style>

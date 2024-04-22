@@ -26,7 +26,7 @@
 
 <div class="drawer {location} {isDrawerOpen ? 'bottom-show' : 'bottom-hide'}">
     <div class="action">
-        <button on:click={closeDrawer}>Close</button>
+        <button class="close-button" on:click={closeDrawer}>X</button>
     </div>
     <slot></slot>
 </div>
@@ -37,7 +37,7 @@
         background-color: #fff;
         color: black;
         z-index: 500;
-        padding: 20px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -58,7 +58,7 @@
         bottom: 0px;
         left: 0;
         border-radius: 10px 10px 0 0;
-        max-height: 40vh;
+        /* max-height: 40vh; */
     }
 
     .bottom-show {
@@ -84,4 +84,18 @@
         width: 20vw;
     }
 
+    .close-button {
+		background-color: black;
+		border: 2px solid black;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+        color: white;
+	}
+
+    .close-button:hover {
+        cursor: pointer;
+		border: 5px solid #a6f0ff;
+        color: #a6f0ff
+    }
 </style>

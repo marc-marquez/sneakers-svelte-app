@@ -9,9 +9,9 @@
 
 <style>
     header {
-        position: relative;
-        top: 0;
         text-align: center;
-        padding: 10px
+        font-size: 5rem;
+        background-color: #a6f0ff;
+        width: 100%;
     }
 </style>

@@ -32,12 +32,12 @@ label {
 input, button, select, textarea {
 	font-family: inherit;
 	font-size: inherit;
-	-webkit-padding: 0.4em 0;
-	padding: 0.4em;
-	margin: 0 0 0.5em 0;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	border-radius: 2px;
+	/* -webkit-padding: 0.4em 0; */
+	/* padding: 0.4em; */
+	/* margin: 0 0 0.5em 0; */
+	/* box-sizing: border-box; */
+	/* border: 1px solid #ccc; */
+	/* border-radius: 2px; */
 }
 
 input:disabled {
@@ -60,4 +60,24 @@ button:not(:disabled):active {
 
 button:focus {
 	border-color: #666;
+}
+
+.permanent-marker-regular {
+	font-family: "Permanent Marker", cursive;
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: "BEYNO";
+    src: url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.eot");
+    src: url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.svg#BEYNO")format("svg");
+}
+
+h1 {
+	font-family: "Permanent Marker", cursive;
 }

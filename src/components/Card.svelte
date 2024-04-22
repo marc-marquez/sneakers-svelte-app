@@ -39,7 +39,7 @@
     }
 
     .card:hover {
-        border: 5px solid red;
+        border: 5px solid #a6f0ff;
         cursor: pointer;
     }
 </style>

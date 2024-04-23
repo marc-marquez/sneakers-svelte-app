@@ -1,0 +1,40 @@
+<script>
+    import { fly } from "svelte/transition";
+    import ColumnContainer from "../shared/ColumnContainer.svelte";
+    import RowContainer from "../shared/RowContainer.svelte";
+    import Card from "../shared/Card.svelte";
+
+    export let shoes;
+</script>
+
+<ColumnContainer style="flex:1; margin-left: 20px; align-items: flex-start;">
+    {#each shoes as shoe (shoe.id)}
+    <RowContainer style="padding: 10px; border-top: 5px solid #a6f0ff; flex-wrap: nowrap; width: 100%;">
+        <div style="margin-right: 20px">
+            <h1 style="text-align: left; margin-top: 0">{shoe.title}</h1>
+            {#if shoe.description}
+                <p style="text-align: left">{@html shoe.description}</p>
+            {:else}
+                <p style="text-align: left;">No description available</p>
+            {/if}
+            <RowContainer style="justify-content: start;">
+                {#each shoe.variants as variant}
+                    <Card width="80px" height="40px" margin="1px">
+                        <span>Size: {variant.size}</span>
+                        <span>${variant.price}</span>
+                    </Card>
+                {/each}
+            </RowContainer>
+        </div>
+        <div style="min-width: 250px; max-width: 300px;">
+            <img style="object-fit: contain; width: 100%" src={shoe.image} alt={shoe.name} in:fly={{ x: 200, duration: 2000 }}/>
+        </div>
+    </RowContainer>
+    {/each}
+</ColumnContainer>
+
+<style>
+    span {
+        font-size: 1rem;
+    }
+</style>

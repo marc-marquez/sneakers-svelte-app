@@ -3,6 +3,7 @@
     import { createEventDispatcher } from "svelte";
     import RowContainer from "../shared/RowContainer.svelte";
     import Card from "../shared/Card.svelte";
+    import ColumnContainer from "../shared/ColumnContainer.svelte";
 
     export let shoes;
     export let currentPage;
@@ -19,28 +20,24 @@
         dispatch('getNextPage');
     }
 
-    const getShoeDetails = () => {
-        dispatch('getShoeDetails');
+    const getShoeDetails = (index) => {
+        dispatch('getShoeDetails', index);
     }
 </script>
 
 
-<RowContainer style="align-items: flex-start; justify-content: center; flex: 1;">
-    {#each shoes as shoe (shoe.id)}
+<RowContainer style="align-items: flex-start; justify-content: center; flex: 1; align-self: center;">
+    {#each shoes as shoe, index (shoe.id)}
         {#if shoe.image}
-        <Card bgcolor="white" border="none" on:openDrawer={() => getShoeDetails(shoe)}>
+        <Card bgcolor="white" border="none" on:openDrawer={() => getShoeDetails(index)}>
             {#if !isLoading}
-            <div style="width: 200px;">
-            <img style="object-fit: contain; width: 100%" src={shoe.image} alt={shoe.name} in:fly={{ y: -100, duration: 2000 }} />
+            <div style="max-width: 200px;">
+                <img style="object-fit: contain; width: 100%" src={shoe.image} alt={shoe.name} in:fly={{ y: -50, duration: 2000 }} />
             </div>
             {/if}
         </Card>
         {/if}
     {/each}
-</RowContainer>
-<RowContainer>
-    <button on:click={() => getPrevPage()} disabled="{currentPage < 2}">Prev</button>
-    <button on:click={() => getNextPage()} disabled="{currentPage === totalPages}">Next</button>
 </RowContainer>
 
 <style>

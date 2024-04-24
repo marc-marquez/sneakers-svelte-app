@@ -89,4 +89,13 @@
         font-size: 20px;
         font-weight: 900;
     }
+
+    @media (max-width: 960px) {
+        .navbar {
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 5px;
+            border-radius: 0;
+        }
+    }
 </style>

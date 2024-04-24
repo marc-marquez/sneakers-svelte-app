@@ -13,7 +13,7 @@ const handleSetBrand = (brand) => {
 
 </script>
 
-<ColumnContainer class="brands-container">
+<div class="brands-container">
     {#each brands as brand (brand)}
     <button class="brand-button {currentBrand === brand ? 'selected' : ''}" on:click={() => handleSetBrand(brand)}>
         {#if brand === 'Jordan'}
@@ -23,10 +23,12 @@ const handleSetBrand = (brand) => {
         {/if}
     </button>
     {/each}
-</ColumnContainer>
+</div>
 
 <style>
     .brands-container {
+		display: flex;
+		flex-direction: column;
 		padding: 10px;
 		overflow-y: auto;
 	}
@@ -38,10 +40,12 @@ const handleSetBrand = (brand) => {
     .brand-button {
 		background-color: white;
 		border-left: 5px solid white;
-		width: 100px;
-		height: 75px;
 		border: none;
-		margin: 10px 0;
+		margin-bottom: 10px;
+	}
+
+	.brand-image {
+		object-fit: contain;
 	}
 
 	.brand-button:hover {
@@ -51,5 +55,28 @@ const handleSetBrand = (brand) => {
 
 	.brand-button.selected {
 		border-left: 5px solid #a6f0ff;
+	}
+
+	@media (max-width: 960px){
+		.brands-container {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.brand-button {
+			margin-right: 5px;
+		}
+
+		.brand-button:hover {
+			border-left: none;
+			border-bottom: 5px solid lightgrey;
+		}
+
+		.brand-button.selected {
+			border-left: none;
+			border-bottom: 5px solid #a6f0ff;
+		}
 	}
 </style>

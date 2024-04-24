@@ -28,6 +28,7 @@
 		border: 2px solid #a6f0ff;
 		background-color: #a6f0ff;
 		color: black;
+		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 	}
 
 	.circle-button:disabled {

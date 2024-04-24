@@ -15,7 +15,7 @@
     }
 </script>
 
-<ColumnContainer style="padding: 10px; max-width: 200px;">
+<div class="container">
     <h1 style="text-align: center;">Customization</h1>
     <ColumnContainer>
         <h1 style="text-align: center;">Price Slider</h1>
@@ -28,9 +28,16 @@
             </RowContainer>
         {/if}
     </ColumnContainer>
-</ColumnContainer>
+</div>
 
 <style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        max-width: 200px;
+        padding: 10px;
+    }
+
     .variant-button {
 		background-color: black;
 		width: 40px;
@@ -54,4 +61,10 @@
 		color: black
 
 	}
+
+    @media (max-width: 720px) {
+        .container {
+            max-width: 100%;
+        }
+    }
 </style>

@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
-	import { onMount } from 'svelte';
+	// import { onMount } from 'svelte';
 
     import Overlay from "./Overlay.svelte";
 
@@ -14,11 +14,11 @@
         dispatch('closeDrawer');
     }
 
-    onMount(() => {
-		if (isDrawerOpen) {
-			dispatch('animateImage');
-		}
-  	});
+    // onMount(() => {
+	// 	if (isDrawerOpen) {
+	// 		dispatch('animateImage');
+	// 	}
+  	// });
 </script>
 
 
@@ -58,7 +58,6 @@
         bottom: 0px;
         left: 0;
         border-radius: 10px 10px 0 0;
-        /* max-height: 40vh; */
     }
 
     .bottom-show {

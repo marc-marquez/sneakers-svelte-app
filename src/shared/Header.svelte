@@ -3,6 +3,7 @@
 
     export let name;
     let displayFormat = "featured";
+    export let category = "adult"
 
     const dispatch = createEventDispatcher();
 
@@ -10,15 +11,16 @@
         displayFormat = event.target.value;
         dispatch("displayFormatChange", displayFormat);
     }
+
+    const handleCategoryChange = (event) => {
+        dispatch("categoryChange", event.target.value);
+    }
+
 </script>
 
 <header>
     <div class="navbar">
         <h1 class="title">{name}</h1>
-        <div>
-            <button class="category-button"><h2>Adults</h2></button>
-            <button class="category-button"><h2>Kids</h2></button>
-        </div>
         <div class="flex-row" style="justify-content: center; align-items: center;">
             <span>Viewing Option:</span>
             <label>
@@ -57,17 +59,28 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     }
 
-    .category-button {
+    /* .category-button {
         border: none;
         background-color: #a6f0ff;
         padding: 10px;
-        font-size: 1rem;
+        font-size: 24px;
+        font-weight: bold;
     }
 
     .category-button:hover {
         background-color: white;
         border-radius: 5px;
     }
+
+
+    .selected {
+        background-color: white;   
+    }
+
+    .unselected {
+     background-color: #a6f0ff;   
+    } */
+
     .title {
         font-size: 3rem;
         padding: 0;

@@ -17,9 +17,9 @@ const handleSetBrand = (brand) => {
     {#each brands as brand (brand)}
     <button class="brand-button {currentBrand === brand ? 'selected' : ''}" on:click={() => handleSetBrand(brand)}>
         {#if brand === 'Jordan'}
-            <img class="brand-image" alt="{brand} logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/250px-Jumpman_logo.svg.png" width="50"/>
+            <img class="brand-image" alt="{brand} logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/250px-Jumpman_logo.svg.png" />
         {:else}
-            <img class="brand-image" alt="{brand} logo" src="{`https://logo.clearbit.com/${brand.replace(/\s+/g, '')}.com`}?size=50" />
+            <img class="brand-image" alt="{brand} logo" src="{`https://logo.clearbit.com/${brand.replace(/\s+/g, '')}.com`}?size=60" />
         {/if}
     </button>
     {/each}
@@ -42,10 +42,14 @@ const handleSetBrand = (brand) => {
 		border-left: 5px solid white;
 		border: none;
 		margin-bottom: 10px;
+		border-left: 5px solid white;
+		width: 60px;
+		align-self: center;
 	}
 
 	.brand-image {
 		object-fit: contain;
+		width: 100%;
 	}
 
 	.brand-button:hover {
@@ -67,6 +71,7 @@ const handleSetBrand = (brand) => {
 
 		.brand-button {
 			margin-right: 5px;
+			border-bottom: 5px solid white;
 		}
 
 		.brand-button:hover {

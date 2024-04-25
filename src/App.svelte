@@ -12,11 +12,17 @@
     import PageLayout from './shared/PageLayout.svelte';
     import ShoeDrawer from './components/ShoeDrawer.svelte';
 
+	import FavoriteButton from './shared/FavoriteButton.svelte';
+    import StarRating from './shared/StarRating.svelte';
+    import AddToCart from './shared/AddToCart.svelte';
+    import CircleButton from './shared/CircleButton.svelte';
+
+
     let brands = ['Nike', 'Jordan', 'Adidas', 'New Balance', 'Converse', 'Reebok', 'Puma', 'Fila'];
     let shoes = [];
     let totalPages = 0;
     let currentPage = 1;
-    let currentBrand = '';
+    let currentBrand = brands[0];
     let isDrawerOpen = false;
 	let isLoading = false;
 
@@ -27,10 +33,11 @@
   	let imageHeight;
 
 	let displayFormat = 'featured';
+	let currentCategory = 'male';
 
-	const getShoes = (brand, page=1) => {
+	const getShoes = (brand, page=1, category) => {
 		isLoading = true;
-        fetch(`https://api.stockx.vlour.me/search?query=${brand} sneakers&page=${page}`)
+        fetch(`https://api.stockx.vlour.me/search?query=${brand} sneakers ${category}&page=${page}`)
             .then(response => response.json())
             .then(data => {
                 shoes = data.hits;
@@ -59,7 +66,7 @@
 	const setBrandAndGet = (brand) => {
         currentBrand = brand;
         currentPage = 1;
-        getShoes(currentBrand);
+        getShoes(currentBrand, currentPage, currentCategory);
     };
 
 	const toggleDrawer = () => {
@@ -85,7 +92,7 @@
     }
 
 	onMount(() => {
-		setBrandAndGet(brands[0]);
+		setBrandAndGet(currentBrand);
 	});
 
 	const setVariant = (event) => {
@@ -94,18 +101,26 @@
 
 	const nextShoe = () => {
 		currentShoeIndex++;
+		console.log(currentShoeIndex);
 		currentShoeVariant = 0;
 	}
 
 	const prevShoe = () => {
 		currentShoeIndex--;
+		console.log(currentShoeIndex);
 		currentShoeVariant = 0;
+	}
+
+	const setCategory = (e) => {
+		currentCategory = e.detail;
+		console.log(currentBrand, currentCategory);
+		getShoes(currentBrand, 1, currentCategory);
 	}
 
 </script>
 
 <PageLayout>
-	<Header name="The Drip" on:displayFormatChange={(e) => displayFormat = e.detail}/>
+	<Header name="The Drip" on:displayFormatChange={(e) => displayFormat = e.detail} on:categoryChange={setCategory}/>
 	<main>
 		<div class="container">
 			<div style="flex-shrink:2">
@@ -115,7 +130,7 @@
 			{#if displayFormat === 'featured' && !isLoading}
 				<ShoeFeatured {shoes} {currentShoeIndex} {currentShoeVariant} {isLoading} on:getNextShoe={nextShoe} on:getPrevShoe={prevShoe}/>
 				{#if shoes[currentShoeIndex]?.variants }
-					<Customization variants={shoes[currentShoeIndex].variants} {currentShoeVariant} on:setVariant={(e) => setVariant(e)} />
+					<Customization variants={shoes[currentShoeIndex].variants} {currentShoeVariant} {currentCategory} on:setVariant={(e) => setVariant(e)} on:categoryChange={setCategory} />
 				{/if}
 			{:else if displayFormat === 'grid' && !isLoading}
 				<ShoeGrid {shoes} {currentPage} {totalPages} on:getNextPage={getNextPage} on:getPrevPage={getPrevPage} on:getShoeDetails={getShoeDetails} />
@@ -123,6 +138,27 @@
 				<ShoeList {shoes} />
 			{/if}
 		</div>
+		{#if displayFormat === 'featured' && !isLoading}
+		<RowContainer style="flex-wrap: nowrap; align-items: center;">
+			<CircleButton handleClick={() => prevShoe()} disabled={currentShoeIndex <= 0}>
+				<i class="fas fa-chevron-left" />
+			</CircleButton>
+			{#if shoes[currentShoeIndex]?.title}
+				<h1>{shoes[currentShoeIndex].title}</h1>
+			{/if}
+			<CircleButton handleClick={() => nextShoe()} disabled={currentShoeIndex >= shoes.length - 1}>
+				<i class="fas fa-chevron-right" />
+			</CircleButton>
+		</RowContainer>
+		<RowContainer>
+			<StarRating />
+			<FavoriteButton />
+			<AddToCart />
+			{#if shoes[currentShoeIndex]?.variants}
+				<h2>${shoes[currentShoeIndex].variants[currentShoeVariant].price}</h2>
+			{/if}
+		</RowContainer>
+		{/if}
 	</main>
 	<!-- <Footer /> -->
 	{#if isDrawerOpen}
@@ -150,6 +186,7 @@
 		.container {
 			flex-direction: column;
 			align-items: center;
+			padding: 0 10px;
 		}
 	}
 </style>

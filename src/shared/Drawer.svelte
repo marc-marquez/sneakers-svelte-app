@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { createEventDispatcher } from "svelte";
 	// import { onMount } from 'svelte';
 
@@ -8,7 +8,7 @@
 
     let dispatch = createEventDispatcher();
 
-    export let location = 'bottom';
+    export let location: string = 'bottom';
 
     const closeDrawer = () => {
         dispatch('closeDrawer');
@@ -41,17 +41,18 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        justify-content:flex-start;
+        justify-content: start;
         transition: bottom 0.3s ease;
         box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
     }
 
     .action {
-        display: flex;
+        /* display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-end; */
         width: 100%;
+        text-align: right;
     }
 
     .bottom {
@@ -85,16 +86,30 @@
 
     .close-button {
 		background-color: black;
-		border: 2px solid black;
+		border: 3px solid black;
 		width: 50px;
 		height: 50px;
 		border-radius: 50%;
         color: white;
+        position: relative;
+        top: 0;
+        right: 0;
 	}
 
     .close-button:hover {
         cursor: pointer;
-		border: 5px solid #a6f0ff;
-        color: #a6f0ff
+		background-color: #a6f0ff;
+        border: 3px solid #a6f0ff;
+        color: black
+    }
+
+    @media (max-width: 720px) {
+        .drawer {
+            flex-direction: column;
+            max-height: 75%;
+            padding: 5px;
+            overflow-y: auto;
+            min-width: 375px;
+        }
     }
 </style>

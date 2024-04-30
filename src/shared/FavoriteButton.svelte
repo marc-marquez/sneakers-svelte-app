@@ -1,5 +1,5 @@
-<script>
-    let isFavorited = false;
+<script lang="ts">
+    let isFavorited:boolean = false;
     const handleClickFavorite = () => {
         isFavorited = !isFavorited;
     }

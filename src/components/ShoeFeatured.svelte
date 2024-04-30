@@ -1,33 +1,24 @@
-<script>
+<script lang="ts">
 	import { fly } from 'svelte/transition';
-    import { createEventDispatcher } from 'svelte';
-    import RowContainer from "../shared/RowContainer.svelte";
-    import CircleButton from '../shared/CircleButton.svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import ColumnContainer from '../shared/ColumnContainer.svelte';
-    import FavoriteButton from '../shared/FavoriteButton.svelte';
-    import StarRating from '../shared/StarRating.svelte';
-    import AddToCart from '../shared/AddToCart.svelte';
     
-    export let shoes;
-    export let currentShoeIndex;
-    export let isLoading;
+    export let shoes: Array<any> = [];
+    export let currentShoeIndex: number = 0;
+    export let isLoading: boolean = false;
 
     let dispatch = createEventDispatcher();
-
-    const nextShoe = () => {
-        dispatch('getNextShoe');
-	}
-
-	const prevShoe = () => {
-        dispatch('getPrevShoe')
-	}
 </script>
 
 <div class="container">
-    {#if shoes.length > 0 && shoes[currentShoeIndex].image && !isLoading}
+    {#if shoes.length > 0 && !isLoading}
     <ColumnContainer>
-        <div style="max-width: 800px; text-align: center;">
-            <img style="object-fit: contain; width: 100%" src={shoes[currentShoeIndex].image} alt={shoes[currentShoeIndex].title} in:fly={{ y: -50, duration: 2000 }} />
+        <div style="max-width: 600px; text-align: center;">
+            {#if shoes[currentShoeIndex].image}
+            <img src={shoes[currentShoeIndex].image} alt={shoes[currentShoeIndex].title} in:fly={{ y: -25, duration: 2000 }} />
+            {:else}
+            <img src="https://placehold.co/600?text=No+Image+Found&font=roboto" alt="placerholder" />
+            {/if}
         </div>
     </ColumnContainer>
     {/if}
@@ -41,5 +32,17 @@
         padding: 10px;
         flex: 1;
         flex-wrap: wrap;
+    }
+
+    img {
+        object-fit: contain;
+        width: 100%;
+        height: 30vh;
+    }
+
+    @media (max-width:  720px) {
+        img {
+            height: 20vh;
+        }
     }
 </style>

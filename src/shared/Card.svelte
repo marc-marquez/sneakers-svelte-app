@@ -1,15 +1,8 @@
-<script>
+<script lang="ts">
     import { createEventDispatcher } from "svelte";
 
-    // export let bgcolor = 'black';
-    // export let color = 'white';
-    // export let margin = '10px';
-    // export let border = '1px solid black';
-    // export let width = '200px';
-    // export let height = '150px';
-
-    export let classes = '';
-    export let style = '';
+    export let classes: string = '';
+    export let style: string = '';
 
     const dispatch = createEventDispatcher();
 
@@ -28,11 +21,9 @@
 
 <style>
     .card {
-        /* width: 200px;
-        height: 150px; */
         padding: .5px;
         border-radius: 1rem;
-        border: 5px solid transparent;
+        border: 5px solid white;
         background-color: white;
         margin: 10px;
         display: flex;

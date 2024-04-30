@@ -1,7 +1,3 @@
-<script>
-
-</script>
-
 <div class="page-layout">
     <slot></slot>
 </div>
@@ -21,7 +17,7 @@
 		.page-layout {
 			padding: 0;
 			margin: 0;
-			min-width: 400px;
+			min-width: 375px;
 		}
 	}
 </style>

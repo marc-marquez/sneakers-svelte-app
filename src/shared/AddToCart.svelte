@@ -1,5 +1,5 @@
-<script>
-    let isAdded = false;
+<script lang="ts">
+    let isAdded: boolean = false;
     const handleClick = () => {
         console.log('Added to cart');
     }

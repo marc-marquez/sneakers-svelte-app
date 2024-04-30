@@ -1,8 +1,8 @@
-<script>
-    export let style;
-    export let classes;
+<script lang="ts">
+    export let style: string = '';
+    export let classes: string = '';
     export let handleClick;
-    export let disabled;
+    export let disabled: boolean = false;
 </script>
 
 <button class="{classes ? classes : 'circle-button'}" {style} on:click={handleClick} {disabled}>

@@ -1,7 +1,6 @@
-<script>
-    let currentRating = 0;
-    const handleClick = (rating) => {
-        console.log('Current rating:', rating);
+<script lang="ts">
+    let currentRating: number = 0;
+    const handleClick = (rating: number) => {
         if (rating === currentRating) {
             currentRating = 0;
             return;

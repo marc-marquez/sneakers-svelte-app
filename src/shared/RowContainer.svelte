@@ -1,6 +1,6 @@
-<script>
-    export let style;
-    export let classes;
+<script lang="ts">
+    export let style: string = '';
+    export let classes: string = '';
 </script>
 
 <div class="row-container {classes}" {style}>

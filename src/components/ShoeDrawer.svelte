@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// import { onMount } from 'svelte';
     import { fly } from 'svelte/transition';
     import { createEventDispatcher } from 'svelte';
@@ -8,8 +8,8 @@
     import RowContainer from "../shared/RowContainer.svelte";
 
     // export let toggleDrawer;
-    export let isDrawerOpen;
-    export let shoe;
+    export let isDrawerOpen: boolean = false;
+    export let shoe: any = {};
 
     const dispatch = createEventDispatcher();
 
@@ -57,15 +57,11 @@
 </script>
 
 <Drawer on:closeDrawer={toggleDrawer} {isDrawerOpen}>
-    <!-- <RowContainer style="padding: 0 40px 40px 50px; flex-wrap: nowrap;"> -->
     <div class="container">
-        <!-- <div class="drawer-shoe-image-container">
-            <img class="drawer-shoe-image" src="{shoe.image}" alt={shoe.title} style="max-width: 400px" />
-        </div> -->
-        <div style="max-width: 300px;">
-            <img src="{shoe.image}" alt={shoe.title} style="object-fit: contain; width: 100%;" in:fly={{ y: -50, duration: 2000 }} />
+        <div class="image-container">
+            <img src="{shoe.image}" alt={shoe.title} in:fly={{ y: -50, duration: 2000 }} />
         </div>
-        <div style="margin-left: 40px; flex-grow: 2">
+        <div class="details-container">
             <h1 style="margin: 0">{shoe.title}</h1>
             {#if shoe.description}
                 <p>{@html shoe.description}</p>
@@ -75,13 +71,12 @@
             <RowContainer style="justify-content: start;">
                 {#each shoe.variants as variant}
                     <Card style="background-color: black; color: white; width: 100px; height: 40px; margin: 1px;">
-                        <p style="margin: 0; padding: 0">Size: {variant.size}</p>
-                        <p style="margin: 0; padding: 0">${variant.price}</p>
+                        <p style="margin: 0; padding: 0;">Size: {variant.size}</p>
+                        <p style="margin: 0; padding: 0;">${variant.price}</p>
                     </Card>
                 {/each}
             </RowContainer>
         </div>
-    <!-- </RowContainer> -->
     </div>
 </Drawer>
 
@@ -89,33 +84,37 @@
     .container {
         display: flex;
         flex-direction: row;
-        padding: 0 20px 50px 20px;
+        padding: 20px;
         align-items: center;
-        /* flex-wrap: nowrap; */
     }
 
-    .drawer-shoe-image-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		object-fit: contain;
-		overflow: hidden;
-		position: relative;
+    .image-container {
+        max-width: 300px;
 	}
+    
+    img {
+        object-fit: contain;
+        width: 100%;
+    }
 
-	.drawer-shoe-image {
+    .details-container {
+        margin-left: 40px;
+        flex-grow: 2;
+    }
+
+	/* .drawer-shoe-image {
 		position: absolute;
 		top: -100%;
 		left: 50%;
 		transform: translateX(-50%);
-		transition: top 0.5s ease, transform 0.5s ease; /* Transition for smooth animation */
-	}
+		transition: top 0.5s ease, transform 0.5s ease;
+	} */
 
     @media (max-width: 720px) {
         .container {
             flex-direction: column;
-            max-height: 100%;
+            max-height: 50%;
+            padding: 5px;
         }
     }
 </style>

@@ -1,13 +1,12 @@
-<script>
+<script lang="ts">
 import { createEventDispatcher } from "svelte";
-import ColumnContainer from "../shared/ColumnContainer.svelte";
 
-export let currentBrand;
-export let brands;
+export let currentBrand: string = '';
+export let brands: string[] = [];
 
 const dispatch = createEventDispatcher();
 
-const handleSetBrand = (brand) => {
+const handleSetBrand = (brand: string) => {
     dispatch('handleSetBrand', brand);
 }
 
@@ -16,11 +15,11 @@ const handleSetBrand = (brand) => {
 <div class="brands-container">
     {#each brands as brand (brand)}
     <button class="brand-button {currentBrand === brand ? 'selected' : ''}" on:click={() => handleSetBrand(brand)}>
-        {#if brand === 'Jordan'}
-            <img class="brand-image" alt="{brand} logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/250px-Jumpman_logo.svg.png" />
-        {:else}
-            <img class="brand-image" alt="{brand} logo" src="{`https://logo.clearbit.com/${brand.replace(/\s+/g, '')}.com`}?size=60" />
-        {/if}
+			{#if brand === 'Jordan'}
+				<img class="brand-image" alt="{brand} logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/250px-Jumpman_logo.svg.png" />
+			{:else}
+				<img class="brand-image" alt="{brand} logo" src="{`https://logo.clearbit.com/${brand.replace(/\s+/g, '')}.com`}?size=60" />
+			{/if}
     </button>
     {/each}
 </div>
@@ -30,7 +29,7 @@ const handleSetBrand = (brand) => {
 		display: flex;
 		flex-direction: column;
 		padding: 10px;
-		overflow-y: auto;
+		max-width: 200px;
 	}
 
 	.brands-container::-webkit-scrollbar {
@@ -43,7 +42,7 @@ const handleSetBrand = (brand) => {
 		border: none;
 		margin-bottom: 10px;
 		border-left: 5px solid white;
-		width: 60px;
+		max-width: 60px;
 		align-self: center;
 	}
 
@@ -67,11 +66,13 @@ const handleSetBrand = (brand) => {
 			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
+			max-width: 100%;
 		}
 
 		.brand-button {
 			margin-right: 5px;
 			border-bottom: 5px solid white;
+			max-width: 50px;
 		}
 
 		.brand-button:hover {

@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
     import { createEventDispatcher } from "svelte";
 
-    export let name;
-    let displayFormat = "featured";
-    export let category = "adult"
+    export let name: string = '';
+
+    let displayFormat: string = "featured";
 
     const dispatch = createEventDispatcher();
 
@@ -12,16 +12,12 @@
         dispatch("displayFormatChange", displayFormat);
     }
 
-    const handleCategoryChange = (event) => {
-        dispatch("categoryChange", event.target.value);
-    }
-
 </script>
 
 <header>
     <div class="navbar">
         <h1 class="title">{name}</h1>
-        <div class="flex-row" style="justify-content: center; align-items: center;">
+        <!-- <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <span>Viewing Option:</span>
             <label>
                 <input type="radio" value="featured" bind:group={displayFormat} on:change={handleDisplayFormatChange}/>
@@ -35,7 +31,7 @@
                 <input type="radio" value="list" bind:group={displayFormat} on:change={handleDisplayFormatChange}/>
                 Deep Dive
             </label>
-        </div>
+        </div> -->
         <!-- <div>
             <input type="text" class="search-input" />
             <button class="category-button"><h2>Cart</h2></button>

@@ -1,5 +1,5 @@
-<script>
-export let handleClick;
+<script type="ts">
+    export let handleClick;
 </script>
 
 <div class="overlay" on:click={handleClick} />

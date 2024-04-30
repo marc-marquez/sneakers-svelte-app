@@ -1,7 +1,3 @@
-<script>
-
-</script>
-
 <footer>
     <span>Created by Marc Marquez</span>
 </footer>

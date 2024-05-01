@@ -1,5 +1,6 @@
 <script lang="ts">
     import { fly } from 'svelte/transition';
+    import { tweened } from 'svelte/motion';
     import { createEventDispatcher } from "svelte";
 	// import { onMount } from 'svelte';
 
@@ -15,6 +16,21 @@
         dispatch('closeDrawer');
     }
 
+    let transitionDirection = location === 'bottom' ? 'x' : 'y';
+
+    // Define a tweened variable to control the transition
+    const flyX = tweened(0);
+    const flyY = tweened(0);
+
+    // Update the flyX or flyY based on the transition direction
+    $: {
+        if (transitionDirection === 'x') {
+            flyX.set(transitionDirection === 'x' ? 100 : 0);
+        } else {
+            flyY.set(transitionDirection === 'y' ? 100 : 0);
+        }
+    }
+
     // onMount(() => {
 	// 	if (isDrawerOpen) {
 	// 		dispatch('animateImage');
@@ -25,7 +41,8 @@
 
 <Overlay handleClick={closeDrawer} />
 
-<div class="drawer {location} {isDrawerOpen ? 'bottom-show' : 'bottom-hide'}" transition:fly={{y: isDrawerOpen ? 100 : 0 }}>
+<!-- <div class="drawer {location} {isDrawerOpen ? `${location}-show` : `${location}-hide`}" transition:fly={{y: isDrawerOpen ? 100 : 0 }}> -->
+<div class="drawer {location} {isDrawerOpen ? `${location}-show` : `${location}-hide`}" transition:fly="{{ x: flyX, y: flyY }}">
     <div class="action">
         <button class="close-button" on:click={closeDrawer}>X</button>
     </div>
@@ -68,10 +85,18 @@
     .right {
         top: 0;
         right: 0;
-        width: 20vw;
+        width: 30vw;
         border-radius: 5px 0 0 5px;
         height: 100vh;
         overflow-y: auto;
+    }
+
+    .right-show {
+        right: 0;
+    }
+
+    .right-hide {
+        right: -100px;
     }
 
     .left {
@@ -99,12 +124,17 @@
         color: black
     }
 
-    @media (max-width: 720px) {
-        .drawer {
+    @media (max-width: 960px) {
+        .bottom {
             flex-direction: column;
             max-height: 75%;
             overflow-y: auto;
             min-width: 375px;
+        }
+
+        .right {
+            width: 75vw;
+            height: 100vh;
         }
     }
 </style>

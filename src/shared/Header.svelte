@@ -12,6 +12,10 @@
         dispatch("displayFormatChange", displayFormat);
     }
 
+    const openCart = () => {
+        dispatch("openCart");
+    }
+
 </script>
 
 <header>
@@ -36,6 +40,7 @@
             <input type="text" class="search-input" />
             <button class="category-button"><h2>Cart</h2></button>
         </div> -->
+        <button style="border: none; background-color: transparent; font-size: 24px;" on:click={openCart}><i class="fa-solid fa-cart-shopping"></i></button>
     </div>
 </header>
 

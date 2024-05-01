@@ -18,6 +18,7 @@
     import CircleButton from './shared/CircleButton.svelte';
     import LoadingState from './shared/LoadingState.svelte';
     import EmptyState from './shared/EmptyState.svelte';
+    import CartDrawer from './components/CartDrawer.svelte';
 
     let brands = ['Nike', 'Jordan', 'Adidas', 'New Balance', 'Converse', 'Reebok', 'Puma', 'Fila'];
     let shoes = [];
@@ -25,7 +26,8 @@
     let totalPages = 0;
     let currentPage = 1;
     let currentBrand = brands[0];
-    let isDrawerOpen = false;
+    let isDetailsDrawerOpen = false;
+	let isCartOpen = false;
 	let isLoading = false;
 
 	let currentShoeIndex = 0;
@@ -78,12 +80,12 @@
         getShoes(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
     };
 
-	const toggleDrawer = () => {
-        isDrawerOpen = !isDrawerOpen;
+	const toggleDetailsDrawer = () => {
+        isDetailsDrawerOpen = !isDetailsDrawerOpen;
     }
 
 	const getShoeDetails = (e) => {
-		isDrawerOpen = true;
+		isDetailsDrawerOpen = true;
 		currentShoeIndex = e.detail;
 	}
 
@@ -146,10 +148,19 @@
 	const setDisplayFormat = (e) => {
 		displayFormat = e.detail;
 	}
+
+	const openCart = () => {
+		console.log('open drawer to cart');
+		isCartOpen = true;
+	}
+
+	const toggleCart = () => {
+		isCartOpen = !isCartOpen;
+	}
 </script>
 
 <PageLayout>
-	<Header name="The Drip" on:displayFormatChange={setDisplayFormat} />
+	<Header name="The Drip" on:displayFormatChange={setDisplayFormat} on:openCart={openCart}/>
 	<main>
 		<div class="container">
 			<div>
@@ -183,10 +194,10 @@
 						</RowContainer>
 						{/if}
 						<RowContainer style="width: 90%; flex-wrap: wrap;">
-							<button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDrawer()}><i class="fa-solid fa-circle-info"></i></button>
+							<button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDetailsDrawer()}><i class="fa-solid fa-circle-info"></i></button>
 							<StarRating />
 							<FavoriteButton />
-							<AddToCart />
+							<AddToCart {currentShoe} {currentShoeVariant} />
 							{#if shoes[currentShoeIndex]?.variants[currentShoeVariant]?.price}
 								<h2 style="margin:0;padding:0;">${shoes[currentShoeIndex].variants[currentShoeVariant]?.price}</h2>
 							{:else}
@@ -210,8 +221,12 @@
 		
 	</main>
 	<!-- <Footer /> -->
-	{#if isDrawerOpen}
-	<ShoeDrawer shoe={shoes[currentShoeIndex]} on:toggleDrawer={toggleDrawer} {isDrawerOpen} />
+	{#if isDetailsDrawerOpen}
+	<ShoeDrawer shoe={shoes[currentShoeIndex]} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} />
+	{/if}
+
+	{#if isCartOpen}
+	<CartDrawer {isCartOpen} {toggleCart} />
 	{/if}
 </PageLayout>
 

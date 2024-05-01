@@ -7,8 +7,7 @@
     import Card from "../shared/Card.svelte";
     import RowContainer from "../shared/RowContainer.svelte";
 
-    // export let toggleDrawer;
-    export let isDrawerOpen: boolean = false;
+    export let isDetailsDrawerOpen: boolean = false;
     export let shoe: any = {};
 
     const dispatch = createEventDispatcher();
@@ -51,12 +50,12 @@
 	// 	imageHeight = image.clientHeight;
 	// });
 
-    const toggleDrawer = () => {
-        dispatch('toggleDrawer');
+    const toggleDetailsDrawer = () => {
+        dispatch('toggleDetailsDrawer');
     }
 </script>
 
-<Drawer on:closeDrawer={toggleDrawer} {isDrawerOpen}>
+<Drawer on:closeDrawer={toggleDetailsDrawer} isDrawerOpen={isDetailsDrawerOpen}>
     <div class="container">
         <div class="image-container">
             <img src="{shoe.image}" alt={shoe.title} />

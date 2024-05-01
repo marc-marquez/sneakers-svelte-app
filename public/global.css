@@ -55,6 +55,8 @@ h1 {
 p {
 	font-size: clamp(.75rem, 1vw, 1rem);
 	font-family: "Inter", sans-serif;
+	margin-top: 0;
+	margin-bottom: .5rem;
 }
 
 .display-1 {

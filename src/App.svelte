@@ -32,6 +32,8 @@
 	let currentShoeSize = '';
 	let currentShoeVariant = '';
 
+	$: currentShoe = shoes[currentShoeIndex];
+
 	let displayFormat = 'featured';
 	let currentGender = 'any';
 	let currentAgeGroup = 'adults';
@@ -156,14 +158,10 @@
 			</div>
 			{#if isLoading}
 				<LoadingState />
-			{:else if shoes.length <= 0 && !isLoading}
-				<EmptyState />
 			{:else if displayFormat === 'featured'}
 				<ColumnContainer>
 					<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-						<!-- <RowContainer style="flex-wrap: nowrap; align-items: center; justify-content: center;"> -->
-							<ShoeFeatured {shoes} {currentShoeIndex} {isLoading} on:getNextShoe={nextShoe} on:getPrevShoe={prevShoe}/>
-						<!-- </RowContainer> -->
+						<ShoeFeatured {currentShoe} {isLoading} {currentBrand} on:getNextShoe={nextShoe} on:getPrevShoe={prevShoe}/>
 						<RowContainer style="flex-wrap: nowrap; align-items: center; justify-content: center;">
 							<CircleButton handleClick={() => prevShoe()} disabled={currentShoeIndex <= 0}>
 								<i class="fas fa-chevron-left" />
@@ -172,12 +170,11 @@
 								<i class="fas fa-chevron-right" />
 							</CircleButton>
 						</RowContainer>
-						<RowContainer style="width: 90%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center;">
-							{#if shoes[currentShoeIndex]?.title}
-								<h1 style="text-align: center;">{shoes[currentShoeIndex].title}</h1>
-								<button style="border: none; background-color: white; font-size: 24px; margin-left: 10px;" on:click={() => toggleDrawer()}><i class="fa-solid fa-circle-info" /></button>
-							{/if}
+						{#if shoes[currentShoeIndex]?.title}
+						<RowContainer style="width: 90%; flex-wrap: wrap; margin-bottom: 10px; justify-content: center;">
+							<h1 style="text-align: center;">{shoes[currentShoeIndex].title}</h1>
 						</RowContainer>
+						{/if}
 						{#if shoes[currentShoeIndex]?.variants}
 						<RowContainer style="width: 90%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center;">
 							{#each shoes[currentShoeIndex].variants as variant, i (i)}
@@ -186,10 +183,11 @@
 						</RowContainer>
 						{/if}
 						<RowContainer style="width: 90%; flex-wrap: wrap;">
+							<button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDrawer()}><i class="fa-solid fa-circle-info"></i></button>
 							<StarRating />
 							<FavoriteButton />
 							<AddToCart />
-							{#if shoes[currentShoeIndex].variants[currentShoeVariant]?.price}
+							{#if shoes[currentShoeIndex]?.variants[currentShoeVariant]?.price}
 								<h2 style="margin:0;padding:0;">${shoes[currentShoeIndex].variants[currentShoeVariant]?.price}</h2>
 							{:else}
 								<h2 style="margin:0;padding:0;">$</h2>
@@ -201,12 +199,15 @@
 				<ShoeGrid {shoes} {currentPage} {totalPages} on:getNextPage={getNextPage} on:getPrevPage={getPrevPage} on:getShoeDetails={getShoeDetails} />
 			{:else if displayFormat === 'list'}
 				<ShoeList {shoes} />
+			{:else if shoes.length === 0 && !isLoading}
+				<EmptyState />
 			{/if}
-			<div>
+			<div style="margin-bottom: 20px;">
 				<h1 class="hide-show-titles" style="text-align: center;">Filters</h1>
 				<Filters {currentShoeSize} {currentGender} on:sizeChange={setShoeSize} on:genderChange={setGender} on:ageGroupChange={setAgeGroup} />
 			</div>
 		</div>
+		
 	</main>
 	<!-- <Footer /> -->
 	{#if isDrawerOpen}
@@ -251,7 +252,6 @@
 		background-color: #a6f0ff;
 		border: 2px solid #a6f0ff;
 		color: black
-
 	}
 
 	@media (max-width: 960px) {

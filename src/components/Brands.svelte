@@ -29,7 +29,6 @@ const handleSetBrand = (brand: string) => {
 		display: flex;
 		flex-direction: column;
 		padding: 10px;
-		max-width: 200px;
 	}
 
 	.brands-container::-webkit-scrollbar {

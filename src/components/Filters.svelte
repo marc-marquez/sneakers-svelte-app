@@ -33,7 +33,6 @@
     .container {
         display: flex;
         flex-direction: column;
-        max-width: 200px;
         padding: 10px;
         justify-content: flex-end;
     }

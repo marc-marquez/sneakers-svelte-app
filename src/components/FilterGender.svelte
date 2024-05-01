@@ -9,7 +9,7 @@
     }
 </script>
 
-<h1 style="text-align: center;">Gender</h1>
+<h2 style="text-align: center;">Gender</h2>
         <select bind:value={currentGender} on:change={genderChange}>
             <option value="any">Any</option>
             <option value="male">Male</option>
@@ -18,7 +18,7 @@
 
 <style>
 select {
-    font-size: 24px;
+    font-size: 20px;
     background-color: #a6f0ff;
     border: 2px solid #a6f0ff;
     font-weight: bold;

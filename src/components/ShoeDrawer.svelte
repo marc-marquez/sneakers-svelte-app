@@ -59,7 +59,7 @@
 <Drawer on:closeDrawer={toggleDrawer} {isDrawerOpen}>
     <div class="container">
         <div class="image-container">
-            <img src="{shoe.image}" alt={shoe.title} in:fly={{ y: -50, duration: 2000 }} />
+            <img src="{shoe.image}" alt={shoe.title} />
         </div>
         <div class="details-container">
             <h1 style="margin: 0">{shoe.title}</h1>
@@ -68,14 +68,14 @@
             {:else}
                 <p style="width: 100%;">No description available</p>
             {/if}
-            <RowContainer style="justify-content: start;">
+            <div class="variants">
                 {#each shoe.variants as variant}
                     <Card style="background-color: black; color: white; width: 100px; height: 40px; margin: 1px;">
                         <p style="margin: 0; padding: 0;">Size: {variant.size}</p>
                         <p style="margin: 0; padding: 0;">${variant.price}</p>
                     </Card>
                 {/each}
-            </RowContainer>
+            </div>
         </div>
     </div>
 </Drawer>
@@ -102,19 +102,31 @@
         flex-grow: 2;
     }
 
-	/* .drawer-shoe-image {
-		position: absolute;
-		top: -100%;
-		left: 50%;
-		transform: translateX(-50%);
-		transition: top 0.5s ease, transform 0.5s ease;
-	} */
+    .variants {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        flex-wrap: wrap;
+
+    }
 
     @media (max-width: 720px) {
         .container {
             flex-direction: column;
             max-height: 50%;
             padding: 5px;
+        }
+
+        .variants {
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .details-container {
+            margin-left: 0;
+            margin-top: 20px;
+            text-align: center;
         }
     }
 </style>

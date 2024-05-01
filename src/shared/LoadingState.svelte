@@ -3,7 +3,7 @@
 </script>
 
 <div class="container">
-    <h1>No shoe found.</h1>
+    <h1>Loading...</h1>
 </div>
 
 <style>

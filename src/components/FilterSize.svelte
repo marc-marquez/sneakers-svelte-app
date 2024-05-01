@@ -15,7 +15,7 @@
     }
 </script>
 
-<h1 style="text-align: center;">Select Size</h1>
+<h2 style="text-align: center;">Select Size</h2>
 <select bind:value={currentShoeSize} on:change={sizeChange}>
     <option value="">Any</option>
     {#each sizes as size}
@@ -25,7 +25,7 @@
 
 <style>
     select {
-        font-size: 24px;
+        font-size: 20px;
         background-color: #a6f0ff;
         border: 2px solid #a6f0ff;
         font-weight: bold;

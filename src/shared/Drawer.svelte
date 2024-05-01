@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { fly } from 'svelte/transition';
     import { createEventDispatcher } from "svelte";
 	// import { onMount } from 'svelte';
 
@@ -24,7 +25,7 @@
 
 <Overlay handleClick={closeDrawer} />
 
-<div class="drawer {location} {isDrawerOpen ? 'bottom-show' : 'bottom-hide'}">
+<div class="drawer {location} {isDrawerOpen ? 'bottom-show' : 'bottom-hide'}" transition:fly={{y: isDrawerOpen ? 100 : 0 }}>
     <div class="action">
         <button class="close-button" on:click={closeDrawer}>X</button>
     </div>
@@ -47,17 +48,12 @@
     }
 
     .action {
-        /* display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end; */
         width: 100%;
         text-align: right;
     }
 
     .bottom {
-        bottom: 0px;
-        left: 0;
+        bottom: 0;
         border-radius: 10px 10px 0 0;
     }
 
@@ -107,7 +103,6 @@
         .drawer {
             flex-direction: column;
             max-height: 75%;
-            padding: 5px;
             overflow-y: auto;
             min-width: 375px;
         }

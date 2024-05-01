@@ -9,11 +9,11 @@ const CartStore = writable([
         "price": 303
     },
     {
-        "id": "407fdf6b-d197-4051-82fa-9456f19d93d8",
-        "title": "StockX Vault NFT Puma MB.01 LaMelo Ball Rick and Morty - US M 10 Vaulted Goods",
-        "image": "https://images.stockx.com/images/puma-mb-01-lamelo-ball-rick-and-morty-vault-nft-bce44af7-a48b-4fdd-89f5-96d1e73bcb26.jpg",
-        "size": "10",
-        "price": 410
+        "id": "9ad7d5ce-b170-4975-8c9c-05ada90fa859",
+        "image": "https://images.stockx.com/images/Nike-Air-Force-1-1-Mighty-Swooshers.jpg",
+        "price": 309,
+        "size": "8.5",
+        "title": "Nike Air Force 1/1 Low Mighty Swooshers"
     },
     {
         "id": "2494d704-e6d1-41aa-906b-71e5f3b22ce8",

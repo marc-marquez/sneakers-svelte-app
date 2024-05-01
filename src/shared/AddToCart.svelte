@@ -1,17 +1,13 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import CartStore from "../stores/CartStore";
 
     export let currentShoe: any = <any>{};
     export let currentShoeVariant: number;
-    let isAdded: boolean = false;
+
     const modifyCart = () => {
         if (!currentShoe || !currentShoeVariant) {
             console.error('No shoe or variant chosen.');
-            return;
-        }
-
-        if (isAdded) {
-            isAdded = false;
             return;
         }
 
@@ -24,15 +20,12 @@
         }
 
         CartStore.update((cart) => {
-            return [order, ...cart];
+            return [...cart, order];
         });
-
-        console.log('order: ', order);
-        isAdded = true;
     }
 </script>
 
-<button class="add-button {isAdded ? 'selected' : ''}" on:click={modifyCart} disabled={!currentShoeVariant}>
+<button class="add-button" on:click={modifyCart} disabled={!currentShoeVariant}>
     <i class="fa-solid fa-cart-plus" />
 </button>
 
@@ -46,14 +39,11 @@
 
     .add-button:hover {
         cursor: pointer;
+        color: #a6f0ff;
     }
 
     .add-button:disabled {
         cursor: not-allowed;
         color: grey;
-    }
-
-    .selected {
-        color: #a6f0ff;
     }
 </style>

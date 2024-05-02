@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import CartStore from "../stores/CartStore";
 
     export let currentShoe: any = <any>{};

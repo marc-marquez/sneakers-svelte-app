@@ -23,8 +23,8 @@
     let brands = ['Nike', 'Jordan', 'Adidas', 'New Balance', 'Converse', 'Reebok', 'Puma', 'Fila'];
     let shoes = [];
 	let originalShoes = [];
-    let totalPages = 0;
-    let currentPage = 1;
+    let totalPages: number = 0;
+    let currentPage: number = 1;
     let currentBrand = brands[0];
     let isDetailsDrawerOpen = false;
 	let isCartOpen = false;
@@ -32,7 +32,7 @@
 
 	let currentShoeIndex = 0;
 	let currentShoeSize = '';
-	let currentShoeVariant = '';
+	let currentShoeVariant: number = null;
 
 	$: currentShoe = shoes[currentShoeIndex];
 
@@ -196,7 +196,7 @@
 						<RowContainer style="width: 90%; flex-wrap: wrap;">
 							<button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDetailsDrawer()}><i class="fa-solid fa-circle-info"></i></button>
 							<StarRating />
-							<FavoriteButton />
+							<FavoriteButton id={currentShoe?.id} />
 							<AddToCart {currentShoe} {currentShoeVariant} />
 							{#if shoes[currentShoeIndex]?.variants[currentShoeVariant]?.price}
 								<h2 style="margin:0;padding:0;">${shoes[currentShoeIndex].variants[currentShoeVariant]?.price}</h2>

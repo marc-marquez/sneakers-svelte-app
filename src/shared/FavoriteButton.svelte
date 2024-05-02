@@ -1,11 +1,26 @@
 <script lang="ts">
-    let isFavorited:boolean = false;
-    const handleClickFavorite = () => {
-        isFavorited = !isFavorited;
+    import FavoriteStore from "../stores/FavoriteStore";
+
+    export let id: string = '';
+
+    $: isFavorited = $FavoriteStore.find((current) => current === id);
+
+    const handleClick = () => {
+        if (isFavorited) {
+            let filtered = $FavoriteStore.filter(item => item !== id);
+            FavoriteStore.update((store) => {
+                return [...filtered];
+            })
+            return;
+        }
+        
+        FavoriteStore.update((store) => {
+            return [...store, id];
+        })
     }
 </script>
 
-<button class="favorite-button {isFavorited ? 'selected' : ''}" on:click={() => handleClickFavorite()}>
+<button class="favorite-button {isFavorited ? 'selected' : ''}" on:click={handleClick}>
     <i class="fa-solid fa-heart" />
 </button>
 

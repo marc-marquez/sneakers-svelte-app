@@ -194,11 +194,15 @@
 			<div style="background-color: white; padding: 10px; margin: 10px;">
 				<h1 style="text-align: center;">Select Brand</h1>
 				<Brands {brands} {currentBrand} on:handleSetBrand={(e) => setBrandAndGet(e.detail)} />
+				<h1 class="hide-show-titles" style="text-align: center;">Filters</h1>
+				<Filters {currentShoeSize} {currentGender} on:sizeChange={setShoeSize} on:genderChange={setGender} on:ageGroupChange={setAgeGroup} />
 			</div>
 			{#if isLoading}
-				<LoadingState />
+				<div style="flex:2 1 0%; background-color: white; margin: 10px;">
+					<LoadingState />
+				</div>
 			{:else if displayFormat === 'featured'}
-				<div style="flex:2 1 35%; background-color: white; margin: 10px;">
+				<div style="flex:2 1 0%; background-color: white; margin: 10px; position: relative; top: -30px;">
 					<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 						<ShoeFeatured {currentShoe} {isLoading} {currentBrand} on:getNextShoe={nextShoe} on:getPrevShoe={prevShoe}/>
 						<RowContainer style="flex-wrap: nowrap; align-items: center; justify-content: center;">
@@ -237,16 +241,16 @@
 					</div>
 				</div>
 			{:else if displayFormat === 'grid'}
-				<ShoeGrid {shoes} {currentPage} {totalPages} on:getNextPage={getNextPage} on:getPrevPage={getPrevPage} on:getShoeDetails={getShoeDetails} />
+				<div style="flex:2 1 0%; background-color: white; margin: 10px;">
+					<ShoeGrid {shoes} {currentPage} {totalPages} on:getNextPage={getNextPage} on:getPrevPage={getPrevPage} on:getShoeDetails={getShoeDetails} />
+				</div>
 			{:else if displayFormat === 'list'}
-				<ShoeList {shoes} />
+				<div style="flex:2 1 0%; background-color: white; margin: 10px;">
+					<ShoeList {shoes} />
+				</div>
 			{:else if shoes.length === 0 && !isLoading}
 				<EmptyState />
 			{/if}
-			<div style="background-color: white; padding: 10px; margin: 10px;">
-				<h1 class="hide-show-titles" style="text-align: center;">Filters</h1>
-				<Filters {currentShoeSize} {currentGender} on:sizeChange={setShoeSize} on:genderChange={setGender} on:ageGroupChange={setAgeGroup} />
-			</div>
 		</div>
 		
 	</main>

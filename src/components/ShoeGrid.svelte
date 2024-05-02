@@ -30,20 +30,21 @@
     }
 </script>
 
-
-<RowContainer style="align-items: flex-start; justify-content: center; flex: 1; align-self: center;">
-    {#each currentShoeList as shoe, index (shoe.id)}
-        {#if shoe.image}
-        <Card on:openDrawer={() => getShoeDetails(shoe.id)}>
-            {#if !isLoading}
-            <div class="image-container">
-                <img src={shoe.image} alt={shoe.name} in:fly={{ y: -50, duration: 2000 }} />
-            </div>
+<div class="shoe-grid">
+    <RowContainer style="align-items: flex-start; justify-content: center; flex: 1; align-self: center;">
+        {#each currentShoeList as shoe, index (shoe.id)}
+            {#if shoe.image}
+            <Card on:openDrawer={() => getShoeDetails(shoe.id)}>
+                {#if !isLoading}
+                <div class="image-container">
+                    <img src={shoe.image} alt={shoe.name} in:fly={{ y: -50, duration: 2000 }} />
+                </div>
+                {/if}
+            </Card>
             {/if}
-        </Card>
-        {/if}
-    {/each}
-    <RowContainer style="flex-wrap: nowrap; align-items: center; justify-content: center;">
+        {/each}
+    </RowContainer>
+    <RowContainer style="flex-wrap: nowrap; align-items: flex-start; justify-content: center;">
         <CircleButton handleClick={() => getPrevPage()} disabled={currentPage <= 1}>
             <i class="fas fa-chevron-left" />
         </CircleButton>
@@ -51,7 +52,7 @@
             <i class="fas fa-chevron-right" />
         </CircleButton>
     </RowContainer>
-</RowContainer>
+</div>
 
 <style>
     .image-container {

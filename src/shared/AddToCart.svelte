@@ -29,7 +29,7 @@
     }
 </script>
 
-<button class="add-button" on:click={modifyCart} disabled={!currentShoeVariant}>
+<button class="add-button" on:click={modifyCart} disabled={currentShoeVariant === null}>
     <i class="fa-solid fa-cart-plus" />
 </button>
 

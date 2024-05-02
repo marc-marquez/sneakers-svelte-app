@@ -1,15 +1,15 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import DISPLAY_FORMAT from "../constants/DisplayFormats";
 
     export let name: string = '';
 
-    let displayFormat: string = "featured";
+    let displayFormat: string = DISPLAY_FORMAT.featured;
 
     const dispatch = createEventDispatcher();
 
     const handleDisplayFormatChange = (event) => {
-        displayFormat = event.target.value;
-        dispatch("displayFormatChange", displayFormat);
+        dispatch("displayFormatChange", event.target.value);
     }
 
     const openCart = () => {
@@ -28,9 +28,9 @@
         <div>
             <span>Viewing Style: </span>
             <select class="display-select" bind:value={displayFormat} on:change={handleDisplayFormatChange}>
-                <option value="featured">Spotlight</option>
-                <option value="grid">Window Shopping</option>
-                <option value="list">Deep Dive</option>
+                <option value={DISPLAY_FORMAT.featured}>Spotlight</option>
+                <option value={DISPLAY_FORMAT.grid}>Window Shopping</option>
+                <option value={DISPLAY_FORMAT.list}>Deep Dive</option>
             </select>
             <button style="border: none; background-color: transparent; font-size: 24px;" on:click={openCart}><i class="fa-solid fa-cart-shopping"></i></button>
         </div>
@@ -39,7 +39,6 @@
 
 <style>
     header {
-        /* background-color: #a6f0ff; */
         width: 100%;
     }
 
@@ -47,33 +46,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 50px;
         background-color: #a6f0ff;
         border-radius: 50px 0 50px 0;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     }
-
-    /* .category-button {
-        border: none;
-        background-color: #a6f0ff;
-        padding: 10px;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .category-button:hover {
-        background-color: white;
-        border-radius: 5px;
-    }
-
-
-    .selected {
-        background-color: white;   
-    }
-
-    .unselected {
-     background-color: #a6f0ff;   
-    } */
 
     .title {
         font-size: 3rem;
@@ -81,15 +58,11 @@
         margin: 0;
     }
 
-    .search-input {
+    /* .search-input {
         padding: 5px;
         border-radius: 10px;
         border: 1px solid lightgrey;
-    }
-
-    h2 {
-        margin: 0;
-    }
+    } */
 
     label, span {
         font-family: 'Ostrich Sans', sans-serif;

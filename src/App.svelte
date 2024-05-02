@@ -21,7 +21,12 @@
     import CartDrawer from './components/CartDrawer.svelte';
     import Toast from './shared/Toast.svelte';
 
-    let brands = ['Nike', 'Jordan', 'Adidas', 'New Balance', 'Converse', 'Reebok', 'Puma', 'Fila'];
+	import DISPLAY_FORMAT from './constants/DisplayFormats';
+	import BRANDS from './constants/Brands';
+    import ShoeVariants from './shared/ShoeVariants.svelte';
+    import ShoeActions from './shared/ShoeActions.svelte';
+
+	let brands = BRANDS;
     let shoes = [];
 	let originalShoes = [];
     let totalPages: number = 0;
@@ -39,14 +44,12 @@
 	$: currentShoe = shoes[currentShoeIndex];
 	$: currentShoeId = currentShoe?.id;
 
-
-	let displayFormat = 'featured';
+	let displayFormat: string = DISPLAY_FORMAT.featured;
 	let currentGender = 'any';
 	let currentAgeGroup = 'adults';
 	
-
 	// DOCUMENTATION - https://stockx.vlour.me/
-	const getShoes = (brand, page, gender, age, size) => {
+	const getData = (brand, page, gender, age, size) => {
 		isLoading = true;
         fetch(`https://api.stockx.vlour.me/search?query=${brand} ${age} ${gender} ${size ? `size ${size}` : '' } shoes&page=${page}`)
             .then(response => response.json())
@@ -82,7 +85,7 @@
 	const setBrandAndGet = (brand) => {
         currentBrand = brand;
         currentPage = 1;
-        getShoes(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
+        getData(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
     };
 
 	const toggleDetailsDrawer = () => {
@@ -96,7 +99,7 @@
 
 	const getNextPage = () => {
         currentPage+=1;
-        getShoes(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
+        getData(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
     }
 
     const getPrevPage = () => {
@@ -104,29 +107,26 @@
             currentPage-=1;
         }
 
-        getShoes(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
+        getData(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
     }
 
 	onMount(() => {
 		setBrandAndGet(currentBrand);
 	});
 
-	const setVariant = (event) => {
-		if (currentShoeVariant === event.target.value) {
-			currentShoeVariant = null;
-			return;
-		}
-
-		currentShoeVariant = event.target.value;
+	const setVariant = (e) => {
+		console.log(e.detail);
+		currentShoeVariant = e.detail;
 	}
 
 	const nextShoe = () => {
 		currentShoeIndex++;
 		currentShoeVariant = null;
 
+		// Get next batch of shoes
 		if (currentShoeIndex === shoes.length -1 ) {
 			currentPage+=1;
-			getShoes(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
+			getData(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
 		}
 	}
 
@@ -137,17 +137,17 @@
 
 	const setGender = (e) => {
 		currentGender = e.detail;
-		getShoes(currentBrand, 1, currentGender, currentAgeGroup, currentShoeSize);
+		getData(currentBrand, 1, currentGender, currentAgeGroup, currentShoeSize);
 	}
 
 	const setAgeGroup = (e) => {
 		currentAgeGroup = e.detail;
-		getShoes(currentBrand, 1, currentGender, currentAgeGroup, currentShoeSize);
+		getData(currentBrand, 1, currentGender, currentAgeGroup, currentShoeSize);
 	}
 
 	const setShoeSize = (e) => {
 		currentShoeSize = e.detail;
-		getShoes(currentBrand, 1, currentGender, currentAgeGroup, currentShoeSize);
+		getData(currentBrand, 1, currentGender, currentAgeGroup, currentShoeSize);
 	}
 
 	const setDisplayFormat = (e) => {
@@ -222,21 +222,12 @@
 						</RowContainer>
 						{/if}
 						{#if shoes[currentShoeIndex]?.variants}
-						<RowContainer style="width: 80%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center;">
-							{#each shoes[currentShoeIndex].variants as variant, i (i)}
-								<button class="variant-button {i.toString() === currentShoeVariant ? 'selected' : ''}" value={i} on:click={(i) => setVariant(i)}>{variant.size}</button>
-							{/each}
+						<RowContainer style="width: 50%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center; align-items: center;">
+							<ShoeVariants shoe={currentShoe} on:setVariant={setVariant} />
 						</RowContainer>
 						{/if}
-						<RowContainer style="width: 90%; flex-wrap: wrap;">
-							<button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDetailsDrawer()}><i class="fa-solid fa-circle-info"></i></button>
-							<FavoriteButton id={currentShoe?.id} />
-							<AddToCart {currentShoe} {currentShoeVariant} on:addToCart={fireSuccessToast} />
-							{#if shoes[currentShoeIndex]?.variants[currentShoeVariant]?.price}
-								<h2 style="margin:0;padding:0;">${shoes[currentShoeIndex].variants[currentShoeVariant]?.price}</h2>
-							{:else}
-								<h2 style="margin:0;padding:0;">$</h2>
-							{/if}
+						<RowContainer style="width: 50%; flex-wrap: wrap;">
+							<ShoeActions shoe={currentShoe} {currentShoeVariant} on:toggleDetailsDrawer={toggleDetailsDrawer} on:fireSuccessToast={fireSuccessToast} />
 						</RowContainer>
 					</div>
 				</div>
@@ -254,16 +245,17 @@
 		</div>
 		
 	</main>
+
 	{#if isDetailsDrawerOpen}
-	<ShoeDrawer shoe={getShoeById(currentShoeId)} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} />
+		<ShoeDrawer shoe={getShoeById(currentShoeId)} {currentShoeVariant} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} on:setVariant={setVariant} on:fireSuccessToast={fireSuccessToast}/>
 	{/if}
 
 	{#if isCartOpen}
-	<CartDrawer {isCartOpen} {toggleCart} />
+		<CartDrawer {isCartOpen} {toggleCart} />
 	{/if}
 
 	{#if successToast}
-	<Toast type="success" message={`Added ${currentShoe.title} to cart.`} />
+		<Toast type="success" message={`Added ${currentShoe.title} (size ${currentShoe.variants?.[currentShoeVariant]?.size}) to cart.`} />
 	{/if}
 </PageLayout>
 <!-- <Footer /> -->
@@ -282,29 +274,6 @@
 		justify-content: space-between;
 		align-items: start;
 		flex-wrap: nowrap;
-	}
-
-	.variant-button {
-		background-color: black;
-		width: 40px;
-		height: 40px;
-		margin: 2px;
-		border-radius: 50%;
-		border: 2px solid black;
-		color: white;
-	}
-
-	.variant-button:hover {
-		cursor: pointer;
-		background-color: lightgrey;
-		border: 2px solid lightgrey;
-		color: black;
-	}
-
-	.variant-button.selected {
-		background-color: #a6f0ff;
-		border: 2px solid #a6f0ff;
-		color: black
 	}
 
 	@media (max-width: 960px) {

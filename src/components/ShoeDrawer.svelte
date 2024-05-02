@@ -1,80 +1,55 @@
 <script lang="ts">
-	// import { onMount } from 'svelte';
     import { fly } from 'svelte/transition';
     import { createEventDispatcher } from 'svelte';
-    
+
+    import RowContainer from '../shared/RowContainer.svelte';
     import Drawer from "../shared/Drawer.svelte";
-    import Card from "../shared/Card.svelte";
-    import RowContainer from "../shared/RowContainer.svelte";
+    import ShoeVariants from '../shared/ShoeVariants.svelte';
+    import ShoeActions from '../shared/ShoeActions.svelte';
 
     export let isDetailsDrawerOpen: boolean = false;
     export let shoe: any = {};
+    export let currentShoeVariant: number = -1;
 
     const dispatch = createEventDispatcher();
-
-    // let containerHeight;
-  	// let imageHeight;
-
-    // const animateImage = () => {
-	// 	const image = document.getElementsByClassName('drawer-shoe-image')[0];
-	// 	const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
-
-	// 	containerHeight = container.clientHeight;
-	// 	imageHeight = image.clientHeight;
-
-	// 	if (containerHeight > imageHeight) {
-	// 		// Fall animation
-	// 		image.style.top = `${containerHeight - imageHeight}px`;
-
-	// 		// Bounce animation
-	// 		setTimeout(() => {
-	// 			image.style.transform = 'translateX(-50%) translateY(-50px)'; // Bounce up
-	// 			setTimeout(() => {
-	// 				image.style.transform = 'translateX(-50%) translateY(0)'; // Bounce back to original position
-	// 			}, 500); // Wait for the bounce up animation to complete
-	// 		}, 500); // Wait for the fall animation to complete
-	// 	}
-	// }
-
-    // onMount(() => {
-	// 	const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
-	// 	containerHeight = container.clientHeight;
-	// 	const image = document.getElementsByClassName('drawer-shoe-image')[0];
-	// 	imageHeight = image.clientHeight;
-	// });
-
-    // window.addEventListener('resize', () => {
-	// 	const container = document.getElementsByClassName('drawer-shoe-image-container')[0];
-	// 	containerHeight = container.clientHeight;
-	// 	const image = document.getElementsByClassName('drawer-shoe-image')[0];
-	// 	imageHeight = image.clientHeight;
-	// });
 
     const toggleDetailsDrawer = () => {
         dispatch('toggleDetailsDrawer');
     }
+
+    const setVariant = (e) => {
+        dispatch("setVariant", e.detail);
+    };
+
+    const fireSuccessToast = () => {
+        dispatch("fireSuccessToast");
+    };
 </script>
 
 <Drawer on:closeDrawer={toggleDetailsDrawer} isDrawerOpen={isDetailsDrawerOpen}>
     <div class="container">
         <div class="image-container">
-            <img src="{shoe.image}" alt={shoe.title} />
+            <img src="{shoe.image}" alt={shoe.title} in:fly={{ y: -50, duration: 2000 }} />
         </div>
         <div class="details-container">
             <h1 style="margin: 0">{shoe.title}</h1>
+
             {#if shoe.description}
                 <p>{@html shoe.description}</p>
             {:else}
                 <p style="width: 100%;">No description available</p>
             {/if}
-            <div class="variants">
-                {#each shoe?.variants as variant}
-                    <Card style="background-color: black; color: white; width: 100px; height: 40px; margin: 1px;">
-                        <p style="margin: 0; padding: 0;">Size: {variant.size}</p>
-                        <p style="margin: 0; padding: 0;">${variant.price}</p>
-                    </Card>
-                {/each}
-            </div>
+
+            {#if shoe?.variants}
+            <RowContainer style="width: 100%; flex-wrap: wrap; margin-bottom: 30px; justify-content: start; align-items: center;">
+                <h2 style="margin-right: 10px;">Available Sizes:</h2>
+                <ShoeVariants {shoe} on:setVariant={setVariant} />
+            </RowContainer>
+
+            <RowContainer style="width: 90%; flex-wrap: wrap;">
+				<ShoeActions {shoe} {currentShoeVariant} on:toggleDetailsDrawer={toggleDetailsDrawer} on:fireSuccessToast={fireSuccessToast} />
+            </RowContainer>
+            {/if}
         </div>
     </div>
 </Drawer>
@@ -101,25 +76,11 @@
         flex-grow: 2;
     }
 
-    .variants {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        flex-wrap: wrap;
-
-    }
-
     @media (max-width: 720px) {
         .container {
             flex-direction: column;
             max-height: 50%;
             padding: 5px;
-        }
-
-        .variants {
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
         }
 
         .details-container {

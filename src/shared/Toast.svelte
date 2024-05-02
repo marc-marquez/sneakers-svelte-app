@@ -12,7 +12,7 @@
     .toast {
         position: absolute;
         top: 1vh;
-        width: 300px;
+        width: 350px;
         height: 40px;
         padding: 10px 20px;
         background-color: darkgrey;
@@ -20,6 +20,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 200;
     }
 
     .success {

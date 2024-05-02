@@ -15,13 +15,13 @@
     <ColumnContainer>
         <div style="max-width: 600px; text-align: center; position: relative;">
             {#if currentShoe.image && !currentShoe.image.includes('nft')}
-            <div class="overlap display-1">{currentBrand}.</div>
-            <img src={currentShoe.image} alt={currentShoe.title} in:fly={{ y: -25, duration: 2000 }} />
+                <div class="overlap display-1">{currentBrand}.</div>
+                <img src={currentShoe.image} alt={currentShoe.title} in:fly={{ y: -25, duration: 2000 }} />
             {:else}
-            <div style="font-size: 150px; color: grey; height: 30vh; display: flex; flex-direction: column; justify-content: center; align-self: center;">
-                <h1>No image found.</h1>
-                <i class="fa-solid fa-image"></i>
-            </div>
+                <div style="font-size: 150px; color: grey; height: 30vh; display: flex; flex-direction: column; justify-content: center;align-self: center;">
+                    <h1>No image found.</h1>
+                    <i class="fa-solid fa-image"></i>
+                </div>
             {/if}
         </div>
     </ColumnContainer>

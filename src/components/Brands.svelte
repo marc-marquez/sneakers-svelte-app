@@ -62,7 +62,7 @@ const handleSetBrand = (brand: string) => {
 	@media (max-width: 960px){
 		.brands-container {
 			flex-direction: row;
-			flex-wrap: wrap;
+			flex-wrap: nowrap;
 			align-items: center;
 			justify-content: center;
 			max-width: 100%;

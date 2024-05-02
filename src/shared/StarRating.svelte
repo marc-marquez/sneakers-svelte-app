@@ -1,5 +1,5 @@
 <script lang="ts">
-    let currentRating: number = 0;
+    export let currentRating: number = 0;
     const handleClick = (rating: number) => {
         if (rating === currentRating) {
             currentRating = 0;

@@ -34,7 +34,7 @@
 
 <Drawer location="right" isDrawerOpen={isCartOpen} on:closeDrawer={toggleCart}>
     <div class="container">
-        <h2>Your Cart</h2>
+        <h2 style="margin-top: 0; text-decoration: underline;">Your Cart</h2>
         <div class="cart">
             {#each $CartStore as item, i (`${item.id}_${item.size}_${i}`)}
             <div class="item">
@@ -43,20 +43,25 @@
                     <div style="max-width: 70px; margin-left: 20px">
                         <img style="object: contain; width: 100%;" src={item.image} alt={item.title} />
                     </div>
-                    <div style="margin-left: 20px; justify-content: start; flex: 2;">
+                    <div style="margin-left: 20px; justify-content: start; flex: 2; align-self: center;">
                         <p style="margin-bottom: 0">{item.title}</p>
                         <p>Size: {item.size}</p>
                     </div>
-                    <div style="margin-left: 20px;">
+                    <div style="margin-left: 20px; align-self: center;">
                         <p>${item.price}</p>
                     </div>
                 </div>
             {/each}
         </div>
+        {#if $CartStore.length}
         <div style="text-align: right;">
             <p>Total Cost: ${totalCost}</p>
-            <button on:click={emptyCart}>Empty Cart</button>
+            <div>
+                <button on:click={emptyCart}>Empty Cart</button>
+                <button on:click={() => console.log('Pay')}>Pay</button>
+            </div>
         </div>
+        {/if}
     </div>
 </Drawer>
 
@@ -64,14 +69,13 @@
     .cart {
         display: flex;
         flex-direction: column;
-
     }
 
     .container {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 100%;
+        padding: 20px;
     }
 
     .item {
@@ -89,5 +93,21 @@
     .remove-button:hover {
         cursor: pointer;
         color: red;
+        background-color: transparent;
+    }
+
+    button {
+        border: none;
+        background-color: lightgrey;
+        font-size: 20px;
+        font-weight: 900;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background-color: #a6f0ff;
+        color: white;
     }
 </style>

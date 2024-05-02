@@ -1,8 +1,11 @@
 <script lang="ts">
     import CartStore from "../stores/CartStore";
+    import { createEventDispatcher } from "svelte";
 
     export let currentShoe: any = <any>{};
     export let currentShoeVariant: number;
+
+    const dispatch = createEventDispatcher();
 
     const modifyCart = () => {
         if (!currentShoe || !currentShoeVariant) {
@@ -21,6 +24,8 @@
         CartStore.update((cart) => {
             return [...cart, order];
         });
+
+        dispatch('addToCart');
     }
 </script>
 

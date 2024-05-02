@@ -41,13 +41,21 @@
 
 <Overlay handleClick={closeDrawer} />
 
-<!-- <div class="drawer {location} {isDrawerOpen ? `${location}-show` : `${location}-hide`}" transition:fly={{y: isDrawerOpen ? 100 : 0 }}> -->
-<div class="drawer {location} {isDrawerOpen ? `${location}-show` : `${location}-hide`}" transition:fly="{{ x: flyX, y: flyY }}">
-    <div class="action">
-        <button class="close-button" on:click={closeDrawer}>X</button>
+{#if location === 'bottom'}
+    <div class="drawer {location} {isDrawerOpen ? `${location}-show` : `${location}-hide`}" transition:fly={{y: isDrawerOpen ? 100 : 0 }}>
+        <div class="action">
+            <button class="close-button" on:click={closeDrawer}>X</button>
+        </div>
+        <slot></slot>
     </div>
-    <slot></slot>
-</div>
+{:else}
+    <div class="drawer {location} {isDrawerOpen ? `${location}-show` : `${location}-hide`}" transition:fly={{x: isDrawerOpen ? 100 : 0 }}>
+        <div class="action">
+            <button class="close-button" on:click={closeDrawer}>X</button>
+        </div>
+        <slot></slot>
+    </div>
+{/if}
 
 <style>
     .drawer {
@@ -85,8 +93,9 @@
     .right {
         top: 0;
         right: 0;
-        width: 30vw;
-        border-radius: 5px 0 0 5px;
+        max-width: 30vw;
+        min-width: 375px;
+        border-radius: 0;
         height: 100vh;
         overflow-y: auto;
     }

@@ -19,7 +19,7 @@
 </script>
 
 <header>
-    <div class="navbar">
+    <nav>
         <h1 class="title">{name}</h1>
         <!-- <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <span>Viewing Option:</span>
@@ -41,7 +41,7 @@
             <button class="category-button"><h2>Cart</h2></button>
         </div> -->
         <button style="border: none; background-color: transparent; font-size: 24px;" on:click={openCart}><i class="fa-solid fa-cart-shopping"></i></button>
-    </div>
+    </nav>
 </header>
 
 <style>
@@ -50,13 +50,13 @@
         width: 100%;
     }
 
-    .navbar {
+    nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 20px;
         background-color: #a6f0ff;
-        border-radius: 50px;
+        border-radius: 50px 0 50px 0;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     }
 
@@ -105,11 +105,5 @@
     }
 
     @media (max-width: 960px) {
-        .navbar {
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px 5px;
-            border-radius: 0;
-        }
     }
 </style>

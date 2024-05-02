@@ -3,7 +3,12 @@
 </script>
 
 <div class="container">
-    <h1>Loading...</h1>
+    <h1>Loading</h1>
+    <div style="font-size: 24px">
+        {#each {length: 5} as i}
+            <i class="fa-solid fa-droplet fa-beat"></i>
+        {/each}
+    </div>
 </div>
 
 <style>

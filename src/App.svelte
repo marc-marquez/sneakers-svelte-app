@@ -19,6 +19,7 @@
     import LoadingState from './shared/LoadingState.svelte';
     import EmptyState from './shared/EmptyState.svelte';
     import CartDrawer from './components/CartDrawer.svelte';
+    import Toast from './shared/Toast.svelte';
 
     let brands = ['Nike', 'Jordan', 'Adidas', 'New Balance', 'Converse', 'Reebok', 'Puma', 'Fila'];
     let shoes = [];
@@ -29,6 +30,7 @@
     let isDetailsDrawerOpen = false;
 	let isCartOpen = false;
 	let isLoading = false;
+	let successToast = false;
 
 	let currentShoeIndex = 0;
 	let currentShoeSize = '';
@@ -57,6 +59,7 @@
                 totalPages = data.pages;
 				
 				originalShoes.forEach(shoe => {
+					shoe.rating = Math.floor(Math.random() * 6);
 					shoe.variants.forEach(variant => {
 						variant.size = variant.size.replace(/[YCWK]/g, '');
 					});
@@ -157,20 +160,27 @@
 	const toggleCart = () => {
 		isCartOpen = !isCartOpen;
 	}
+
+	const fireSuccessToast = () => {
+		successToast = true;
+		setTimeout(() => {
+			successToast = false;
+		}, 3000);
+	};
 </script>
 
+<Header name="The Drip" on:displayFormatChange={setDisplayFormat} on:openCart={openCart}/>
 <PageLayout>
-	<Header name="The Drip" on:displayFormatChange={setDisplayFormat} on:openCart={openCart}/>
 	<main>
 		<div class="container">
-			<div>
+			<div style="background-color: white; padding: 10px; margin: 10px;">
 				<h1 style="text-align: center;">Select Brand</h1>
 				<Brands {brands} {currentBrand} on:handleSetBrand={(e) => setBrandAndGet(e.detail)} />
 			</div>
 			{#if isLoading}
 				<LoadingState />
 			{:else if displayFormat === 'featured'}
-				<ColumnContainer>
+				<div style="flex:2 1 35%; background-color: white; margin: 10px;">
 					<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 						<ShoeFeatured {currentShoe} {isLoading} {currentBrand} on:getNextShoe={nextShoe} on:getPrevShoe={prevShoe}/>
 						<RowContainer style="flex-wrap: nowrap; align-items: center; justify-content: center;">
@@ -182,12 +192,15 @@
 							</CircleButton>
 						</RowContainer>
 						{#if shoes[currentShoeIndex]?.title}
-						<RowContainer style="width: 90%; flex-wrap: wrap; margin-bottom: 10px; justify-content: center;">
-							<h1 style="text-align: center;">{shoes[currentShoeIndex].title}</h1>
+						<RowContainer style="flex-wrap: wrap; margin-bottom: 10px; justify-content: center;">
+							<h1 style="text-align: center; margin-bottom: 0">{shoes[currentShoeIndex].title}</h1>
+						</RowContainer>
+						<RowContainer style="flex-wrap: wrap; margin-bottom: 30px; justify-content: center;">
+							<StarRating currentRating={currentShoe?.rating} />
 						</RowContainer>
 						{/if}
 						{#if shoes[currentShoeIndex]?.variants}
-						<RowContainer style="width: 90%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center;">
+						<RowContainer style="width: 80%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center;">
 							{#each shoes[currentShoeIndex].variants as variant, i (i)}
 								<button class="variant-button {i.toString() === currentShoeVariant ? 'selected' : ''}" value={i} on:click={(i) => setVariant(i)}>{variant.size}</button>
 							{/each}
@@ -195,9 +208,8 @@
 						{/if}
 						<RowContainer style="width: 90%; flex-wrap: wrap;">
 							<button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDetailsDrawer()}><i class="fa-solid fa-circle-info"></i></button>
-							<StarRating />
 							<FavoriteButton id={currentShoe?.id} />
-							<AddToCart {currentShoe} {currentShoeVariant} />
+							<AddToCart {currentShoe} {currentShoeVariant} on:addToCart={fireSuccessToast} />
 							{#if shoes[currentShoeIndex]?.variants[currentShoeVariant]?.price}
 								<h2 style="margin:0;padding:0;">${shoes[currentShoeIndex].variants[currentShoeVariant]?.price}</h2>
 							{:else}
@@ -205,7 +217,7 @@
 							{/if}
 						</RowContainer>
 					</div>
-				</ColumnContainer>
+				</div>
 			{:else if displayFormat === 'grid'}
 				<ShoeGrid {shoes} {currentPage} {totalPages} on:getNextPage={getNextPage} on:getPrevPage={getPrevPage} on:getShoeDetails={getShoeDetails} />
 			{:else if displayFormat === 'list'}
@@ -213,14 +225,13 @@
 			{:else if shoes.length === 0 && !isLoading}
 				<EmptyState />
 			{/if}
-			<div style="margin-bottom: 20px;">
+			<div style="background-color: white; padding: 10px; margin: 10px;">
 				<h1 class="hide-show-titles" style="text-align: center;">Filters</h1>
 				<Filters {currentShoeSize} {currentGender} on:sizeChange={setShoeSize} on:genderChange={setGender} on:ageGroupChange={setAgeGroup} />
 			</div>
 		</div>
 		
 	</main>
-	<!-- <Footer /> -->
 	{#if isDetailsDrawerOpen}
 	<ShoeDrawer shoe={shoes[currentShoeIndex]} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} />
 	{/if}
@@ -228,13 +239,18 @@
 	{#if isCartOpen}
 	<CartDrawer {isCartOpen} {toggleCart} />
 	{/if}
+
+	{#if successToast}
+	<Toast type="success" message={`Added ${currentShoe.title} to cart.`} />
+	{/if}
 </PageLayout>
+<!-- <Footer /> -->
 
 <style>
 	main {
 		display: flex;
 		flex-direction: column;
-		margin-top: 10px;
+		margin-top: 40px;
 		width: 100%;
 	}
 
@@ -278,6 +294,10 @@
 
 		.hide-show-titles {
 			display: none;
+		}
+
+		main {
+			margin-top: 20px;
 		}
 	}
 </style>

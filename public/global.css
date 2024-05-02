@@ -1,3 +1,15 @@
+@import url('https://fonts.cdnfonts.com/css/ostrich-sans-2');
+
+/* @font-face {
+    font-family: "BEYNO";
+    src: url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.eot");
+    src: url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.svg#BEYNO")format("svg");
+} */             
+
 html, body {
 	position: relative;
 	width: 100%;
@@ -12,44 +24,13 @@ body {
 input, button, select, textarea {
 	font-family: inherit;
 	font-size: inherit;
-	/* -webkit-padding: 0.4em 0; */
-	/* padding: 0.4em; */
-	/* margin: 0 0 0.5em 0; */
-	/* box-sizing: border-box; */
-	/* border: 1px solid #ccc; */
-	/* border-radius: 2px; */
 }
-
-/* .permanent-marker-regular {
-	font-family: "Permanent Marker", cursive;
-	font-weight: 400;
-	font-style: normal;
-} */
-
-/* @font-face {
-    font-family: "BEYNO";
-    src: url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.eot");
-    src: url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/9d321e63e55e0cc4622852096e2fac4a.svg#BEYNO")format("svg");
-} */
-
-.inter-400 {
-	font-family: "Inter", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 400;
-	font-style: normal;
-	font-variation-settings:
-	  "slnt" 0;
-  }
-
-@import url('https://fonts.cdnfonts.com/css/ostrich-sans-2');                
 
 h1 {
 	font-weight: 900;
 	font-size: clamp(1.5rem, 3vw, 2.5rem);
+	margin-top: 0;
+	margin-bottom: 1rem;
 }
 
 p {
@@ -63,4 +44,19 @@ p {
 	font-family: "Inter", sans-serif;
 	font-size: clamp(3rem, 8vw, 4rem);
 	font-weight: 900;
+}
+
+/* .permanent-marker-regular {
+	font-family: "Permanent Marker", cursive;
+	font-weight: 400;
+	font-style: normal;
+} */
+
+.inter-400 {
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings:
+		"slnt" 0;
 }

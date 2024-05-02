@@ -21,26 +21,19 @@
 <header>
     <nav>
         <h1 class="title">{name}</h1>
-        <!-- <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <span>Viewing Option:</span>
-            <label>
-                <input type="radio" value="featured" bind:group={displayFormat} on:change={handleDisplayFormatChange}/>
-                Spotlight
-            </label>
-            <label>
-                <input type="radio" value="grid" bind:group={displayFormat} on:change={handleDisplayFormatChange}/>
-                Window Shopping
-            </label>
-            <label>
-                <input type="radio" value="list" bind:group={displayFormat} on:change={handleDisplayFormatChange}/>
-                Deep Dive
-            </label>
-        </div> -->
         <!-- <div>
             <input type="text" class="search-input" />
             <button class="category-button"><h2>Cart</h2></button>
         </div> -->
-        <button style="border: none; background-color: transparent; font-size: 24px;" on:click={openCart}><i class="fa-solid fa-cart-shopping"></i></button>
+        <div>
+            <span>Viewing Style: </span>
+            <select class="display-select" bind:value={displayFormat} on:change={handleDisplayFormatChange}>
+                <option value="featured">Spotlight</option>
+                <option value="grid">Window Shopping</option>
+                <option value="list">Deep Dive</option>
+            </select>
+            <button style="border: none; background-color: transparent; font-size: 24px;" on:click={openCart}><i class="fa-solid fa-cart-shopping"></i></button>
+        </div>
     </nav>
 </header>
 
@@ -102,6 +95,17 @@
         font-family: 'Ostrich Sans', sans-serif;
         font-size: 20px;
         font-weight: 900;
+    }
+
+    .display-select {
+        border: none;
+        background: white;
+        padding: 10px;
+        margin: 10px;
+        font-size: 20px;
+        font-weight: 900;
+        border-radius: 50px;
+        text-align: center;
     }
 
     @media (max-width: 960px) {

@@ -37,6 +37,8 @@
 	let currentShoeVariant: number = null;
 
 	$: currentShoe = shoes[currentShoeIndex];
+	$: currentShoeId = currentShoe?.id;
+
 
 	let displayFormat = 'featured';
 	let currentGender = 'any';
@@ -85,11 +87,11 @@
 
 	const toggleDetailsDrawer = () => {
         isDetailsDrawerOpen = !isDetailsDrawerOpen;
-    }
+    };
 
 	const getShoeDetails = (e) => {
 		isDetailsDrawerOpen = true;
-		currentShoeIndex = e.detail;
+		currentShoeId = e.detail;
 	}
 
 	const getNextPage = () => {
@@ -167,6 +169,22 @@
 			successToast = false;
 		}, 3000);
 	};
+
+	const getShoeById = (id) => {
+		if (!id) { 
+			console.error('No id sent in getShoeById');
+			return; 
+		}
+
+		let found = shoes.find((shoe) => shoe.id === id);
+		
+		if (!found) {
+			console.error('No shoe found in getShoeById');
+			return; 
+		}
+
+		return found;
+	};
 </script>
 
 <Header name="The Drip" on:displayFormatChange={setDisplayFormat} on:openCart={openCart}/>
@@ -233,7 +251,7 @@
 		
 	</main>
 	{#if isDetailsDrawerOpen}
-	<ShoeDrawer shoe={shoes[currentShoeIndex]} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} />
+	<ShoeDrawer shoe={getShoeById(currentShoeId)} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} />
 	{/if}
 
 	{#if isCartOpen}

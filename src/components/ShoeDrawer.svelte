@@ -68,7 +68,7 @@
                 <p style="width: 100%;">No description available</p>
             {/if}
             <div class="variants">
-                {#each shoe.variants as variant}
+                {#each shoe?.variants as variant}
                     <Card style="background-color: black; color: white; width: 100px; height: 40px; margin: 1px;">
                         <p style="margin: 0; padding: 0;">Size: {variant.size}</p>
                         <p style="margin: 0; padding: 0;">${variant.price}</p>

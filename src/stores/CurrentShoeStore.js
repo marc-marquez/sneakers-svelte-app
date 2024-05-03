@@ -1,9 +1,9 @@
 import { writable } from "svelte/store";
 
 const CurrentShoeStore = writable({
-    shoe: {},
-    variant: {},
-    variantIndex: -1
+    currentShoe: {},
+    currentShoeVariant: null,
+    currentShoeIndex: 0,
 });
 
 export default CurrentShoeStore;

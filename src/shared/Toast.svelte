@@ -5,14 +5,14 @@
 </script>
 
 <div class="toast {type}" in:fly={{ y: -20, duration: 2000 }} out:fly={{ y: 20, duration: 2000 }}>
-    <p style="margin: 0;">{message}</p>
+    <p class="message">{message}</p>
 </div>
 
 <style>
     .toast {
         position: absolute;
         top: 1vh;
-        width: 350px;
+        width: 40vw;
         height: 40px;
         padding: 10px 20px;
         background-color: darkgrey;
@@ -31,5 +31,10 @@
     .failure {
         background-color: darkred;
         color: white;
+    }
+
+    .message {
+        margin: 0;
+        text-align: center;
     }
 </style>

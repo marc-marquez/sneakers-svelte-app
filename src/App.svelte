@@ -23,6 +23,8 @@
 	import DISPLAY_FORMAT from './constants/DisplayFormats';
 	import BRANDS from './constants/Brands';
 
+	import CurrentShoeStore from './stores/CurrentShoeStore';
+
 	let brands = BRANDS;
     let shoes = [];
 	let originalShoes = [];
@@ -34,12 +36,14 @@
 	let isLoading = false;
 	let successToast = false;
 
-	let currentShoeIndex = 0;
 	let currentShoeSize = '';
-	let currentShoeVariant: number = null;
 
-	$: currentShoe = shoes[currentShoeIndex];
-	$: currentShoeId = currentShoe?.id;
+	$: currentShoe = $CurrentShoeStore.currentShoe;
+	$: currentShoeId = $CurrentShoeStore.currentShoe.id;
+	$: currentShoeIndex = $CurrentShoeStore.currentShoeIndex;
+	$: currentShoeVariant = $CurrentShoeStore.currentShoeVariant;
+
+	// $: console.log($CurrentShoeStore);
 
 	let displayFormat: string = DISPLAY_FORMAT.featured;
 	let currentGender = 'any';
@@ -50,10 +54,15 @@
 		isLoading = true;
         fetch(`https://api.stockx.vlour.me/search?query=${brand} ${age} ${gender} ${size ? `size ${size}` : '' } shoes&page=${page}`)
             .then(response => response.json())
-            .then(data => {				
+            .then(data => {
 				if (currentPage === 1) {
 					originalShoes = [...data.hits];
-					currentShoeIndex = 0;
+					CurrentShoeStore.update(shoeInfo => {
+						return { 
+							...shoeInfo, 
+							currentShoeIndex: 0,
+						};
+					});
 				} else {
                 	originalShoes = [...originalShoes, ...data.hits];
 				}
@@ -65,12 +74,19 @@
 					shoe.variants.forEach(variant => {
 						variant.size = variant.size.replace(/[YCWK]/g, '');
 					});
-					
 					shoe.variants.sort((a, b) => a.size - b.size);
 				});
 
 				shoes = originalShoes;
-				currentShoeVariant = null;
+
+				CurrentShoeStore.update(shoeInfo => {
+					return {
+						...shoeInfo,
+						currentShoe: shoes?.[$CurrentShoeStore.currentShoeIndex],
+						currentShoeVariant: null
+					};
+				});
+
 				isLoading = false;
             })
 			.catch(err => {
@@ -113,24 +129,39 @@
 	});
 
 	const setVariant = (e) => {
-		console.log(e.detail);
-		currentShoeVariant = e.detail;
+		CurrentShoeStore.update(shoeInfo => {
+			return { 
+				...shoeInfo, 
+				currentShoeVariant: e.detail
+			};
+		});
 	}
 
 	const nextShoe = () => {
-		currentShoeIndex++;
-		currentShoeVariant = null;
+		CurrentShoeStore.update(shoeInfo => {
+			return { 
+				...shoeInfo, 
+				currentShoe: shoes?.[currentShoeIndex+1],
+				currentShoeIndex: shoeInfo.currentShoeIndex+1,
+				currentShoeVariant: null
+			};
+		});
 
-		// Get next batch of shoes
-		if (currentShoeIndex === shoes.length - 1) {
+		if ($CurrentShoeStore.currentShoeIndex === shoes.length - 1) {
 			currentPage+=1;
 			getData(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
 		}
 	}
 
 	const prevShoe = () => {
-		currentShoeIndex--;
-		currentShoeVariant = null;
+		CurrentShoeStore.update(shoeInfo => {
+			return { 
+				...shoeInfo, 
+				currentShoe: shoes?.[currentShoeIndex-1],
+				currentShoeIndex: shoeInfo.currentShoeIndex-1,
+				currentShoeVariant: null
+			};
+		});
 	}
 
 	const setGender = (e) => {
@@ -153,7 +184,6 @@
 	}
 
 	const openCart = () => {
-		console.log('open drawer to cart');
 		isCartOpen = true;
 	}
 
@@ -200,7 +230,7 @@
 					<LoadingState />
 				</div>
 			{:else if displayFormat === 'featured'}
-				<div style="flex:2 1 0%; background-color: white; margin: 10px; position: relative; top: -30px;">
+				<div style="flex:2 1 0%; background-color: white; margin: 10px; position: relative; top: 0px;">
 					<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 						<ShoeFeatured {currentShoe} {isLoading} {currentBrand} on:getNextShoe={nextShoe} on:getPrevShoe={prevShoe}/>
 						<RowContainer style="flex-wrap: nowrap; align-items: center; justify-content: center;">

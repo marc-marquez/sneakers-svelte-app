@@ -1,6 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import DISPLAY_FORMAT from "../constants/DisplayFormats";
+    import CartStore from "../stores/CartStore";
+    import FavoritesStore from "../stores/FavoritesStore";
 
     export let name: string = '';
 
@@ -16,11 +18,15 @@
         dispatch("openCart");
     }
 
+    const openFavorites = () => {
+        dispatch("openFavorites");
+    }
+
 </script>
 
 <header>
     <nav>
-        <h1 style="margin: 0;">{name}</h1>
+        <h1>{name}</h1>
         <!-- <div>
             <input type="text" class="search-input" />
             <button class="category-button"><h2>Cart</h2></button>
@@ -32,7 +38,8 @@
                 <option value={DISPLAY_FORMAT.grid}>Window Shopping</option>
                 <option value={DISPLAY_FORMAT.list}>Deep Dive</option>
             </select>
-            <button style="border: none; background-color: transparent; font-size: 24px;" on:click={openCart}><i class="fa-solid fa-cart-shopping"></i></button>
+            <button style="margin-right: 5px;" on:click={openFavorites} disabled={!$FavoritesStore.length}><i class="fa-solid fa-heart"></i></button>
+            <button on:click={openCart} disabled={!$CartStore.length}><i class="fa-solid fa-cart-shopping"></i></button>
         </div>
     </nav>
 </header>
@@ -52,10 +59,14 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     }
 
-    .title {
-        font-size: 3rem;
-        padding: 0;
+    h1 {
         margin: 0;
+    }
+
+    button {
+        border: none;
+        background-color: transparent;
+        font-size: 24px;
     }
 
     /* .search-input {

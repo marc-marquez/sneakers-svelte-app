@@ -24,6 +24,7 @@
 	import BRANDS from './constants/Brands';
 
 	import CurrentShoeStore from './stores/CurrentShoeStore';
+    import FavoritesDrawer from './components/FavoritesDrawer.svelte';
 
 	let brands = BRANDS;
     let shoes = [];
@@ -33,6 +34,7 @@
     let currentBrand = brands[0];
     let isDetailsDrawerOpen = false;
 	let isCartOpen = false;
+	let isFavoritesOpen = false;
 	let isLoading = false;
 	let successToast = false;
 
@@ -230,9 +232,17 @@
 
 		return found;
 	};
+
+	const openFavorites = () => {
+		isFavoritesOpen = true;
+	}
+
+	const toggleFavorites = () => {
+		isFavoritesOpen = !isFavoritesOpen;
+	}
 </script>
 
-<Header name="The Drip" on:displayFormatChange={setDisplayFormat} on:openCart={openCart}/>
+<Header name="The Drip" on:displayFormatChange={setDisplayFormat} on:openCart={openCart} on:openFavorites={openFavorites} />
 <PageLayout>
 	<main>
 		<div class="container">
@@ -297,6 +307,10 @@
 
 	{#if isCartOpen}
 		<CartDrawer {isCartOpen} {toggleCart} />
+	{/if}
+
+	{#if isFavoritesOpen}
+		<FavoritesDrawer {isFavoritesOpen} {toggleFavorites} />
 	{/if}
 
 	{#if successToast}

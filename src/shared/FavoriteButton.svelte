@@ -1,21 +1,21 @@
 <script lang="ts">
-    import FavoriteStore from "../stores/FavoriteStore";
+    import FavoritesStore from "../stores/FavoritesStore";
 
-    export let id: string = '';
+    export let shoe: any = <any>{};
 
-    $: isFavorited = $FavoriteStore.find((current) => current === id);
+    $: isFavorited = $FavoritesStore.find((current) => current.id === shoe.id);
 
     const handleClick = () => {
         if (isFavorited) {
-            let filtered = $FavoriteStore.filter(item => item !== id);
-            FavoriteStore.update((store) => {
+            let filtered = $FavoritesStore.filter(item => item.id !== shoe.id);
+            FavoritesStore.update((store) => {
                 return [...filtered];
             })
             return;
         }
         
-        FavoriteStore.update((store) => {
-            return [...store, id];
+        FavoritesStore.update((store) => {
+            return [...store, shoe];
         })
     }
 </script>

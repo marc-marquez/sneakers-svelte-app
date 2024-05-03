@@ -39,7 +39,6 @@
 	let currentShoeSize = '';
 
 	$: currentShoe = $CurrentShoeStore.currentShoe;
-	$: currentShoeId = $CurrentShoeStore.currentShoe.id;
 	$: currentShoeIndex = $CurrentShoeStore.currentShoeIndex;
 	$: currentShoeVariant = $CurrentShoeStore.currentShoeVariant;
 
@@ -106,9 +105,27 @@
     };
 
 	const getShoeDetails = (e) => {
+		if (!e.detail) {
+			console.error('No shoe id provided.');
+			return;
+		} 
+
 		isDetailsDrawerOpen = true;
-		// currentShoeId = e.detail;
-		console.log(e.detail);
+		let found = getShoeById(e?.detail);
+
+		if (!found) {
+			console.error('Could not find shoe details.');
+			return;
+		}
+
+		CurrentShoeStore.update(shoeInfo => {
+			return { 
+				...shoeInfo, 
+				currentShoe: found,
+				currentShoeIndex: null,
+				currentShoeVariant: null
+			};
+		});
 	}
 
 	const getNextPage = () => {
@@ -275,7 +292,7 @@
 	</main>
 
 	{#if isDetailsDrawerOpen}
-		<ShoeDrawer shoe={getShoeById(currentShoeId)} {currentShoeVariant} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} on:setVariant={setVariant} on:fireSuccessToast={fireSuccessToast}/>
+		<ShoeDrawer shoe={currentShoe} {currentShoeVariant} on:toggleDetailsDrawer={toggleDetailsDrawer} {isDetailsDrawerOpen} on:setVariant={setVariant} on:fireSuccessToast={fireSuccessToast}/>
 	{/if}
 
 	{#if isCartOpen}

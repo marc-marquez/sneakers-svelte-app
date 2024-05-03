@@ -75,7 +75,7 @@
         border: 1px solid lightgrey;
     } */
 
-    label, span {
+    span {
         font-family: 'Ostrich Sans', sans-serif;
         font-size: 20px;
         font-weight: 900;

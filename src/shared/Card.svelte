@@ -12,10 +12,7 @@
 </script>
 
 <div 
-    class="card {classes}" 
-    style={style}
-    on:click={handleClick}
->
+    class="card {classes}" style={style} on:click={() => handleClick()} on:keydown={() => {}}>
     <slot></slot>
 </div>
 

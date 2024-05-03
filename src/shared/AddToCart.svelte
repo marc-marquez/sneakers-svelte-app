@@ -3,12 +3,12 @@
     import { createEventDispatcher } from "svelte";
 
     export let currentShoe: any = <any>{};
-    export let currentShoeVariant: number;
+    export let currentShoeVariant: number = null;
 
     const dispatch = createEventDispatcher();
 
     const modifyCart = () => {
-        if (!currentShoe || !currentShoeVariant) {
+        if (!currentShoe || currentShoeVariant === null) {
             console.error('No shoe or variant chosen.');
             return;
         }

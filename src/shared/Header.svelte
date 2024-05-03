@@ -20,13 +20,13 @@
 
 <header>
     <nav>
-        <h1 class="title">{name}</h1>
+        <h1 style="margin: 0;">{name}</h1>
         <!-- <div>
             <input type="text" class="search-input" />
             <button class="category-button"><h2>Cart</h2></button>
         </div> -->
         <div>
-            <span>Viewing Style: </span>
+            <span>View: </span>
             <select class="display-select" bind:value={displayFormat} on:change={handleDisplayFormatChange}>
                 <option value={DISPLAY_FORMAT.featured}>Spotlight</option>
                 <option value={DISPLAY_FORMAT.grid}>Window Shopping</option>
@@ -82,5 +82,8 @@
     }
 
     @media (max-width: 960px) {
+        nav {
+            padding: 0 20px;
+        }
     }
 </style>

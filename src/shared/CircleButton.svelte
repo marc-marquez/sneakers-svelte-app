@@ -20,7 +20,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin: 30px;
+		margin: 10px;
 	}
 
 	.circle-button:hover {
@@ -36,5 +36,12 @@
 		border: 2px solid lightgrey;
 		background-color: lightgrey;
 		color: white;
+	}
+
+	@media (max-width: 480px) {
+		.circle-button {
+			width: 30px;
+			height: 30px;
+		}
 	}
 </style>

@@ -5,17 +5,17 @@
 
     const dispatch = createEventDispatcher();
 
-    let current = null;
+    export let currentShoeVariant = null;
 
     const setVariant = (index: number) => {
-        current = current === index ? null : index;
-        dispatch("setVariant", current);
+        let variant = currentShoeVariant === index ? null : index;
+        dispatch("setVariant", variant);
     };
 </script>
 
 <div class="variants">
     {#each shoe.variants as variant, i (i)}
-        <button class="variant-button {i === current ? 'selected' : ''}" value={i} on:click={() => setVariant(i)}>{variant.size}</button>
+        <button class="variant-button {i === currentShoeVariant ? 'selected' : ''}" value={i} on:click={() => setVariant(i)}>{variant.size}</button>
     {/each}
 </div>
 

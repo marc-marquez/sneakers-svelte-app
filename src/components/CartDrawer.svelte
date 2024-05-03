@@ -7,7 +7,6 @@
 
     export let isCartOpen: boolean = false;
     export let toggleCart;
-    // let itemToRemove = null;
 
     $: totalCost = $CartStore.reduce((total, current) => total + current.price, 0);
 
@@ -28,7 +27,6 @@
         CartStore.update((cart) => {
             return [...filtered];
         });
-        // itemToRemove = cartItem;
     }
 </script>
 
@@ -38,19 +36,18 @@
         <div class="cart">
             {#each $CartStore as item, i (`${item.id}_${item.size}_${i}`)}
             <div class="item">
-            <!-- <div class="item" out:fly={{ x: i === itemToRemove ? -50 : 0, duration: 1000 }}> -->
-                    <button class="remove-button" on:click={() => removeFromCart(i)}><i class="fa-solid fa-trash"></i></button>
-                    <div style="max-width: 70px; margin-left: 20px">
-                        <img style="object: contain; width: 100%;" src={item.image} alt={item.title} />
-                    </div>
-                    <div style="margin-left: 20px; justify-content: start; flex: 2; align-self: center;">
-                        <p style="margin-bottom: 0">{item.title}</p>
-                        <p>Size: {item.size}</p>
-                    </div>
-                    <div style="margin-left: 20px; align-self: center;">
-                        <p>${item.price}</p>
-                    </div>
+                <button class="remove-button" on:click={() => removeFromCart(i)}><i class="fa-solid fa-trash"></i></button>
+                <div style="max-width: 70px; margin-left: 20px">
+                    <img style="object: contain; width: 100%;" src={item.image} alt={item.title} />
                 </div>
+                <div style="margin-left: 20px; justify-content: start; flex: 2; align-self: center;">
+                    <p style="margin-bottom: 0">{item.title}</p>
+                    <p>Size: {item.size}</p>
+                </div>
+                <div style="margin-left: 20px; align-self: center;">
+                    <p>${item.price}</p>
+                </div>
+            </div>
             {/each}
         </div>
         {#if $CartStore.length}

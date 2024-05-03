@@ -15,11 +15,11 @@ const handleSetBrand = (brand: string) => {
 <div class="brands-container">
     {#each brands as brand (brand)}
     <button class="brand-button {currentBrand === brand ? 'selected' : ''}" on:click={() => handleSetBrand(brand)}>
-			{#if brand === 'Jordan'}
-				<img class="brand-image" alt="{brand} logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/250px-Jumpman_logo.svg.png" />
-			{:else}
-				<img class="brand-image" alt="{brand} logo" src="{`https://logo.clearbit.com/${brand.replace(/\s+/g, '')}.com`}?size=60" />
-			{/if}
+		{#if brand === 'Jordan'}
+			<img class="brand-image" alt="{brand} logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/250px-Jumpman_logo.svg.png" />
+		{:else}
+			<img class="brand-image" alt="{brand} logo" src="{`https://logo.clearbit.com/${brand.replace(/\s+/g, '')}.com`}?size=60" />
+		{/if}
     </button>
     {/each}
 </div>

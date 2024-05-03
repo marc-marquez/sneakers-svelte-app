@@ -21,13 +21,6 @@ const CartStore = writable([
         "image": "https://images.stockx.com/images/Converse-One-Star-Ox-Tyler-The-Creator-Golf-Le-Fleur-Red-Blue-Product.jpg",
         "size": "10",
         "price": 298
-    },
-    {
-        "id": "3715c310-f684-4e50-beb0-7ec14f1bc462",
-        "title": "Nike ACG Air Mada Low Triple Black",
-        "image": "https://images.stockx.com/images/Nike-ACG-Air-Mada-Triple-Black-Product.jpg",
-        "size": "14",
-        "price": 260
     }
 ]);
 

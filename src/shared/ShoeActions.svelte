@@ -19,7 +19,7 @@
 </script>
 
 <div class="shoe-actions">
-    <button style="border: none; background-color: white; font-size: 24px;" on:click={() => toggleDetailsDrawer()}><i class="fa-solid fa-circle-info"></i></button>
+    <button on:click={() => toggleDetailsDrawer()}><i class="fa-solid fa-circle-info"></i></button>
     <FavoriteButton id={shoe?.id} />
     <AddToCart currentShoe={shoe} {currentShoeVariant} on:addToCart={fireSuccessToast} />
     {#if shoe?.variants?.[currentShoeVariant]?.price}
@@ -34,6 +34,16 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
+    }
+
+    button {
+        border: none;
+        background-color: white;
+        font-size: 24px;
+    }
+
+    button:hover {
+        cursor: pointer;
     }
 
     h2 {

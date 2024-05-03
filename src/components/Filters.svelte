@@ -34,7 +34,7 @@
         display: flex;
         flex-direction: column;
         padding: 10px;
-        justify-content: flex-end;
+        justify-content: center;
     }
 
     @media (max-width: 960px) {

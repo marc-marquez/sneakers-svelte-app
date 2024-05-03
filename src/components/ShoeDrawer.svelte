@@ -9,7 +9,7 @@
 
     export let isDetailsDrawerOpen: boolean = false;
     export let shoe: any = {};
-    export let currentShoeVariant: number = -1;
+    export let currentShoeVariant: number = null;
 
     const dispatch = createEventDispatcher();
 

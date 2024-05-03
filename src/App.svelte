@@ -94,7 +94,8 @@
 
 	const getShoeDetails = (e) => {
 		isDetailsDrawerOpen = true;
-		currentShoeId = e.detail;
+		// currentShoeId = e.detail;
+		console.log(e.detail);
 	}
 
 	const getNextPage = () => {
@@ -124,7 +125,7 @@
 		currentShoeVariant = null;
 
 		// Get next batch of shoes
-		if (currentShoeIndex === shoes.length -1 ) {
+		if (currentShoeIndex === shoes.length - 1) {
 			currentPage+=1;
 			getData(currentBrand, currentPage, currentGender, currentAgeGroup, currentShoeSize);
 		}
@@ -223,7 +224,7 @@
 						{/if}
 						{#if shoes[currentShoeIndex]?.variants}
 						<RowContainer style="width: 50%; flex-wrap: wrap; margin-bottom: 30px; justify-content: center; align-items: center;">
-							<ShoeVariants shoe={currentShoe} on:setVariant={setVariant} />
+							<ShoeVariants shoe={currentShoe} {currentShoeVariant} on:setVariant={setVariant} />
 						</RowContainer>
 						{/if}
 						<RowContainer style="width: 50%; flex-wrap: wrap;">

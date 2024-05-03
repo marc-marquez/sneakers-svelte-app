@@ -43,7 +43,7 @@
             {#if shoe?.variants}
             <RowContainer style="width: 100%; flex-wrap: wrap; margin-bottom: 30px; justify-content: start; align-items: center;">
                 <h2 style="margin-right: 10px;">Available Sizes:</h2>
-                <ShoeVariants {shoe} on:setVariant={setVariant} />
+                <ShoeVariants {shoe} {currentShoeVariant} on:setVariant={setVariant} />
             </RowContainer>
 
             <RowContainer style="width: 90%; flex-wrap: wrap;">

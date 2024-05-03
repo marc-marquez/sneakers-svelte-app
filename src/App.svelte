@@ -3,7 +3,6 @@
 
 	import Header from "./shared/Header.svelte";
 	import Brands from './components/Brands.svelte';
-	import ColumnContainer from './shared/ColumnContainer.svelte';
     import RowContainer from './shared/RowContainer.svelte';
 	import ShoeFeatured from './components/ShoeFeatured.svelte';
     import Filters from './components/Filters.svelte';
@@ -12,19 +11,17 @@
     import PageLayout from './shared/PageLayout.svelte';
     import ShoeDrawer from './components/ShoeDrawer.svelte';
 
-	import FavoriteButton from './shared/FavoriteButton.svelte';
     import StarRating from './shared/StarRating.svelte';
-    import AddToCart from './shared/AddToCart.svelte';
     import CircleButton from './shared/CircleButton.svelte';
     import LoadingState from './shared/LoadingState.svelte';
     import EmptyState from './shared/EmptyState.svelte';
     import CartDrawer from './components/CartDrawer.svelte';
     import Toast from './shared/Toast.svelte';
+    import ShoeVariants from './shared/ShoeVariants.svelte';
+    import ShoeActions from './shared/ShoeActions.svelte';
 
 	import DISPLAY_FORMAT from './constants/DisplayFormats';
 	import BRANDS from './constants/Brands';
-    import ShoeVariants from './shared/ShoeVariants.svelte';
-    import ShoeActions from './shared/ShoeActions.svelte';
 
 	let brands = BRANDS;
     let shoes = [];
@@ -193,9 +190,9 @@
 	<main>
 		<div class="container">
 			<div style="background-color: white; padding: 10px; margin: 10px;">
-				<h1 style="text-align: center;">Select Brand</h1>
+				<h1 class="hide-show-titles">Select Brand</h1>
 				<Brands {brands} {currentBrand} on:handleSetBrand={(e) => setBrandAndGet(e.detail)} />
-				<h1 class="hide-show-titles" style="text-align: center;">Filters</h1>
+				<h1 class="hide-show-titles">Filters</h1>
 				<Filters {currentShoeSize} {currentGender} on:sizeChange={setShoeSize} on:genderChange={setGender} on:ageGroupChange={setAgeGroup} />
 			</div>
 			{#if isLoading}
@@ -275,6 +272,10 @@
 		justify-content: space-between;
 		align-items: start;
 		flex-wrap: nowrap;
+	}
+
+	.hide-show-titles {
+		text-align: center;
 	}
 
 	@media (max-width: 960px) {
